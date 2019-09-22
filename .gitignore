@@ -1,0 +1,7 @@
+.vs
+*.exe
+*.iobj
+*.ipdb
+*.pdb
+*.ilk
+bin-intermediate
