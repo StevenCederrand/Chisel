@@ -7,15 +7,10 @@ Application::Application()
 
 Application::~Application()
 {
-	delete m_cube;
 	delete m_camera;
-	Renderer::getInstance()->destroy();
-	ShaderMap::getInstance()->destroy();
-	MaterialMap::getInstance()->destroy();
-	TextureMap::getInstance()->destroy();
 	delete m_window;
 	delete obj;
-	delete obj2;
+	Chisel::GetChisel()->destroy();
 }
 
 bool Application::init()
@@ -27,29 +22,21 @@ bool Application::init()
 
 void Application::update()
 {
-
-	m_cube = new PrimitiveCube();
 	m_camera = new Camera();
-	ShaderMap::getInstance()->createShader("Forward", "vShader.glsl", "fShader.glsl");
+	
+	Chisel::GetChisel()->createShader();
+	Chisel::GetChisel()->setCamera(m_camera);
+
 
 	float timeNow = 0.0f;
 	float timeEnd = 0.0f;
 	float deltaTime = 0.0f;
 
-	//GameObject g_Object;
-	MeshLoader mLoader;
-	//GameObject g_Object2;
-	obj = new GameObject();
-	obj2 = new GameObject();
-	obj->setMesh(mLoader.interpretMesh("cube.fbx"));
-	obj2->setMesh(mLoader.interpretMesh("icoSphere.fbx"));
+	m_GO.push_back(new GameObject("Cube", "cube.fbx", 1));
+	m_GO.push_back(new GameObject("Ico", "icosphere.fbx", 1));
 
-	obj->setWorldPosition(glm::vec3(0, 0, 0));
-	obj2->setWorldPosition(glm::vec3(2, 1, 0));
+	m_GO[1]->setWorldPosition(glm::vec3(0, 2, 0));
 	
-	ShaderMap::getInstance()->useByName("Forward");
-	///ShaderMap::getInstance()->getShader("Forward")->setInt("DiffuseTexture", 0);
-
 	//While the window is active
 	while (m_window->isActive()) {
 		timeNow = static_cast<float>(glfwGetTime());
@@ -62,15 +49,11 @@ void Application::update()
 
 		m_camera->update(deltaTime);
 
-		ShaderMap::getInstance()->useByName("Forward");
-		Renderer::getInstance()->render(m_camera->getRenderMatrixes(), *obj);
-		Renderer::getInstance()->render(m_camera->getRenderMatrixes(), *obj2);
-
-
 		timeNow = static_cast<float>(glfwGetTime());
 		deltaTime = timeNow - timeEnd;
 		timeEnd = timeNow;
 
+		Chisel::GetChisel()->render();
 
 		m_window->swapBuffers();
 	}

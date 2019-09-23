@@ -1,7 +1,6 @@
 #ifndef _CAMERA_h
 #define _CAMERA_h
 #include <PCH/pch.h>
-#include <Engine/Rendering/Renderer.h>
 #include <Engine/Utility/Input.h>
 
 #define NEAR_PLANE 0.01f
@@ -14,10 +13,13 @@ public:
 
 	void update(float deltaTime);
 	void keys(float deltaTime);
-	const RenderMatrix& getRenderMatrixes() const;
 	void mouseCallback();
+	const glm::mat4& getProjectionMatrix() const;
+	const glm::mat4& getViewMatrix() const;
+
 private:
-	RenderMatrix m_matrixes;
+	glm::mat4 viewMatrix;
+	glm::mat4 projectionMatrix;
 	
 	void mouseControls(float xOffset, float yOffset, bool pitchLimit);
 	void calcVectors();

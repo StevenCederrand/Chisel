@@ -7,21 +7,21 @@ Camera::Camera()
 	m_worldUp = glm::vec3(0, 1, 0);
 	m_cameraFace = glm::vec3(0, 0, -1);
 	m_camYaw = -90.0f;
-	m_camSpeed = 1;
+	m_camSpeed = 10;
 	m_sensitivity = 0.15f;
 	m_camPitch = 0;
 
-	m_matrixes.projMatrix = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, NEAR_PLANE, FAR_PLANE);
-	m_matrixes.viewMatrix = glm::lookAt(m_cameraPos, m_cameraPos + m_cameraFace, m_worldUp);
+	projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, NEAR_PLANE, FAR_PLANE);
+	viewMatrix = glm::lookAt(m_cameraPos, m_cameraPos + m_cameraFace, m_worldUp);
 }
 
-Camera::~Camera() 
+Camera::~Camera()
 {
 
 }
 
 void Camera::update(float deltaTime) {
-	m_matrixes.viewMatrix = glm::lookAt(m_cameraPos, m_cameraPos + m_cameraFace, m_worldUp);
+	viewMatrix = glm::lookAt(m_cameraPos, m_cameraPos + m_cameraFace, m_worldUp);
 	keys(deltaTime);
 	mouseCallback();
 }
@@ -47,6 +47,16 @@ void Camera::mouseCallback() {
 	m_lastY = m_posY;
 
 	mouseControls(xoffset, yoffset, true);
+}
+
+const glm::mat4& Camera::getProjectionMatrix() const
+{
+	return projectionMatrix;
+}
+
+const glm::mat4& Camera::getViewMatrix() const
+{
+	return viewMatrix;
 }
 
 void Camera::mouseControls(float xOffset, float yOffset, bool pitchLimit) {
@@ -97,6 +107,3 @@ void Camera::keys(float deltaTime)
 	}
 }
 
-const RenderMatrix& Camera::getRenderMatrixes() const {
-	return m_matrixes;
-}

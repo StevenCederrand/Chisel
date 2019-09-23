@@ -35,7 +35,8 @@
 #include <Engine/Textures/stb_image.h>
 #include <Engine/Utility/Input.h>
 #include <Engine/Utility/Log.h>
-#include <Engine/Rendering/Renderer.h>
+#include <Engine/Chisel.h>
+
 //Game Includes
 #include <Engine/Shaders/ShaderMap.h>
 

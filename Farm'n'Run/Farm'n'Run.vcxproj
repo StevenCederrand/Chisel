@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Chisel.cpp" />
     <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\GameObjects\PrimitiveCube.cpp" />
     <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Materials\MaterialMap.cpp" />
     <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\stb_image.cpp">
@@ -207,6 +208,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Chisel.h" />
     <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\GameObjects\PrimitiveCube.h" />
     <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Materials\MaterialMap.h" />
     <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\stb_image.h" />

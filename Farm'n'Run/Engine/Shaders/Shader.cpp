@@ -235,14 +235,7 @@ void Shader::setName(std::string name)
 void Shader::setMaterial(const Material& mat)
 {
 	setVec3("DiffuseCol", mat.diffuseCol);
-	if (mat.hasBoundTextures) {
-		GLuint textureID;
-		for (int i = 0; i < mat.textures.size(); i++) {
-			textureID = TextureMap::getInstance()->getTextureID(mat.textures.at(i).first);
-			//glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, textureID);
-		}
-	}
+
 
 }
 
