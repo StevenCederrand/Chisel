@@ -2,24 +2,40 @@
 #include "TextureMap.h"
 #define STB_IMAGE_IMPLEMENTATION
 
+TextureMap* TextureMap::m_textureMap;
+
 TextureMap::TextureMap()
 {
 }
 
+//I will need to figure this out
 TextureMap::~TextureMap()
 {
 	//cleanUp();
 }
 
-void TextureMap::insert(const std::string& textureName, std::string textureFile, const std::string& type)
+void TextureMap::destroy() {
+	delete m_textureMap;
+}
+
+TextureMap* TextureMap::getInstance()
+{
+	if (m_textureMap == nullptr)
+	{
+		m_textureMap = new TextureMap();
+	}
+	return m_textureMap;
+}
+
+void TextureMap::insert(const std::string& textureName, const std::string& textureFile, const std::string& type)
 {
 	//If the texture already exists in the textureMap
 	if (textureExists(textureName)) {
 		m_textures[textureName].binds++;
+		logWarning("Texture already exists");
 		return;
 	}
 
-	textureFile = TEXTURE_PATH + textureFile;
 	//Create and insert the texture	
 	GLuint texture;
 	int width, height, nrOfComponents;
@@ -37,15 +53,15 @@ void TextureMap::insert(const std::string& textureName, std::string textureFile,
 		}
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, textureFormat, width, height, 0, textureFormat, GL_UNSIGNED_BYTE, textureData);
-		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		stbi_image_free(textureData);
+		glTexImage2D(GL_TEXTURE_2D, 0, textureFormat, width, height, 0, textureFormat, GL_UNSIGNED_BYTE, textureData);
+		glGenerateMipmap(GL_TEXTURE_2D);
+			   
 		//Set the texture at the position
 		m_textures[textureName].textureID = texture;
 		m_textures[textureName].binds++;
@@ -53,8 +69,8 @@ void TextureMap::insert(const std::string& textureName, std::string textureFile,
 	}
 	else {
 		logWarning("Failed to read texture");
-		stbi_image_free(textureData);
 	}
+	stbi_image_free(textureData);
 }
 const GLuint& TextureMap::getTextureID(const std::string& name)
 {

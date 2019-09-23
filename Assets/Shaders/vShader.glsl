@@ -10,8 +10,10 @@ uniform mat4 modelMatrix;
 
 out vec2 f_uv;
 out vec3 f_normal;
+out vec4 f_position;
 void main() {
-    gl_Position = prjMatrix * viewMatrix * modelMatrix * vec4(position, 1);
+    f_position = modelMatrix * vec4(position, 1);
+    gl_Position = prjMatrix * viewMatrix * f_position;
     f_uv = uv;
-    f_normal = normalize(mat3(transpose(inverse(modelMatrix))) * normal);
+    f_normal = mat3(transpose(inverse(modelMatrix))) * normal;
 }

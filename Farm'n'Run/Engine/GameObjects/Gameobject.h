@@ -13,12 +13,15 @@ public:
 	void setMesh(std::vector<Mesh*> mesh);
 	std::vector<Mesh*> getMesh() const;
 
-
+	const glm::vec3& getWorldPostition() const;
+	const glm::mat4& getModelMatrix() const;
+	void setWorldPosition(const glm::vec3 position);
+	void translate(const glm::vec3& position);
 
 private:
+	glm::mat4 m_modelMatrix;
+	glm::vec3 m_worldPosition;
 	std::vector<Mesh*> m_meshes;
-
-
 
 };
 

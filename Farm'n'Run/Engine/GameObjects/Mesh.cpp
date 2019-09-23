@@ -10,6 +10,13 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
 	setupMesh();
 }
 
+Mesh::~Mesh() {
+	glDeleteVertexArrays(1, &m_renderBuffers.m_VAO);
+	glDeleteBuffers(1, &m_renderBuffers.m_IBO);
+	glDeleteBuffers(1, &m_renderBuffers.m_VBO);
+}
+
+
 const RenderBuffers& Mesh::getBuffers() const
 {
 	return m_renderBuffers;
@@ -51,7 +58,4 @@ void Mesh::setupMesh() {
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 	
 	glBindVertexArray(0);
-
-
-
 }

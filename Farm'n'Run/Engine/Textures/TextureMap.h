@@ -14,8 +14,11 @@ public:
 
 	TextureMap();
 	~TextureMap();
+	
+	static TextureMap* getInstance();
+	void destroy();
 	//Insert a new texture into the map of textures
-	void insert(const std::string& textureName, std::string textureFile, const std::string& type);
+	void insert(const std::string& textureName, const std::string& textureFile, const std::string& type);
 	
 	const GLuint& getTextureID(const std::string& name);
 	//Remove a specific texture
@@ -24,7 +27,7 @@ public:
 	void cleanUp();
 
 private:
-	
+	static TextureMap* m_textureMap;
 	bool textureExists(const std::string& name);
 	std::map<std::string, TextureType> m_textures;
 };

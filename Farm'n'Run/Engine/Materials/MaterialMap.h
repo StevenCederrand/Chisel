@@ -7,7 +7,8 @@ struct Material {
 	glm::vec3 ambientCol;
 	glm::vec3 diffuseCol;
 	glm::vec3 specCol;
-	std::vector<std::pair<std::string, std::string>> textures;
+
+	std::vector<std::pair<std::string, std::string>> textures; //Name --- type
 	bool hasBoundTextures = false; //Set this only to true in the materialmap
 };
 
@@ -20,7 +21,7 @@ public:
 	void cleanUp();
 
 	//Assign a name to the material 
-	void insertMat(const std::string& name, Material mat, std::vector<std::string> texturePaths);
+	void insertMat(const std::string& name, Material mat);
 	const Material& getMaterial(const std::string& name);
 	void remove(const std::string& name);
 

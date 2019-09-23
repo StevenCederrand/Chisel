@@ -23,6 +23,9 @@ private:
 	Camera* m_camera;
 	PrimitiveCube* m_cube;
 	Window* m_window;
+	GameObject* obj;
+	GameObject* obj2;
+
 };
 
 

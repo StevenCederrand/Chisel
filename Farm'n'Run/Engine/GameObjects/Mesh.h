@@ -22,14 +22,16 @@ class Mesh {
 public:
 
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::string materialName);
-	
+	~Mesh();
 	const RenderBuffers& getBuffers() const;
 
 	int getNrOfIndices();
 	const std::string& getMaterialName() const;
+
+
 private:
 	RenderBuffers m_renderBuffers;
-
+	
 	std::vector<Vertex> m_vertices;
 	std::vector<unsigned int> m_indices;
 	std::string m_materialName;

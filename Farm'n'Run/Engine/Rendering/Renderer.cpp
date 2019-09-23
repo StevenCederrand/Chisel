@@ -17,9 +17,6 @@ Renderer* Renderer::getInstance() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
-
-
-
 	return m_instance;
 }
 
@@ -32,9 +29,11 @@ void Renderer::render(const RenderMatrix& renderMatrix, const GameObject& gameOb
 
 	ShaderMap::getInstance()->getShader("Forward")->setMat4("prjMatrix", renderMatrix.projMatrix);
 	ShaderMap::getInstance()->getShader("Forward")->setMat4("viewMatrix", renderMatrix.viewMatrix);
+	ShaderMap::getInstance()->getShader("Forward")->setMat4("modelMatrix", gameObject.getModelMatrix());
 
 	for (int i = 0; i < gameObject.getMesh().size(); i++) {
 		std::string matName = gameObject.getMesh().at(i)->getMaterialName();
+
 		if ( matName != "") {
 			ShaderMap::getInstance()->getShader("Forward")->setMaterial(MaterialMap::getInstance()->getMaterial(matName));
 		}

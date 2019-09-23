@@ -3,20 +3,20 @@
 #include <PCH/pch.h>
 #include <Engine/GameObjects/Mesh.h>
 #include <Engine/Materials/MaterialMap.h>
-
+#include <Engine/Textures/TextureMap.h>
 class MeshLoader {
 public:
+
+	~MeshLoader();
+
 	std::vector<Mesh*> interpretMesh(std::string name);
 	Mesh* processMesh(aiMesh* mesh, const aiScene* scene);
-	void processNode(aiNode* node, const aiScene* scene);
+	void processNode(aiNode* node, const aiScene* scene, std::vector<Mesh*>& mesh);
 
 	//Returns the materialName
-	std::string setupMaterial(aiMaterial* material, std::string type);
-	//std::vector<Texture> loadTextures();
+	std::string setupMaterial(aiMaterial* material);
+	void loadTextures(aiMaterial* material, aiTextureType textureType, Material& engineMat, const std::string& type);
 
-private:
-	std::string directory;
-	std::vector<Mesh*> m_meshes;
 };
 
 #endif // !_MESHLOADER_h

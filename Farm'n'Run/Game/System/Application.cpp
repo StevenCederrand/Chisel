@@ -12,7 +12,10 @@ Application::~Application()
 	Renderer::getInstance()->destroy();
 	ShaderMap::getInstance()->destroy();
 	MaterialMap::getInstance()->destroy();
+	TextureMap::getInstance()->destroy();
 	delete m_window;
+	delete obj;
+	delete obj2;
 }
 
 bool Application::init()
@@ -33,10 +36,19 @@ void Application::update()
 	float timeEnd = 0.0f;
 	float deltaTime = 0.0f;
 
-	GameObject g_Object;
+	//GameObject g_Object;
 	MeshLoader mLoader;
-	g_Object.setMesh(mLoader.interpretMesh("icoSphere.fbx"));
- 
+	//GameObject g_Object2;
+	obj = new GameObject();
+	obj2 = new GameObject();
+	obj->setMesh(mLoader.interpretMesh("cube.fbx"));
+	obj2->setMesh(mLoader.interpretMesh("icoSphere.fbx"));
+
+	obj->setWorldPosition(glm::vec3(0, 0, 0));
+	obj2->setWorldPosition(glm::vec3(2, 1, 0));
+	
+	ShaderMap::getInstance()->useByName("Forward");
+	///ShaderMap::getInstance()->getShader("Forward")->setInt("DiffuseTexture", 0);
 
 	//While the window is active
 	while (m_window->isActive()) {
@@ -49,13 +61,11 @@ void Application::update()
 		}
 
 		m_camera->update(deltaTime);
+
 		ShaderMap::getInstance()->useByName("Forward");
-		
-		ShaderMap::getInstance()->getShader("Forward")->setMat4("modelMatrix", glm::mat4(1));
+		Renderer::getInstance()->render(m_camera->getRenderMatrixes(), *obj);
+		Renderer::getInstance()->render(m_camera->getRenderMatrixes(), *obj2);
 
-
-		Renderer::getInstance()->render(m_camera->getRenderMatrixes(), g_Object);
-		
 
 		timeNow = static_cast<float>(glfwGetTime());
 		deltaTime = timeNow - timeEnd;
