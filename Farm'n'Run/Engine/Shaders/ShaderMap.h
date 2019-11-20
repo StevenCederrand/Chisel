@@ -12,7 +12,7 @@ public:
 	void cleanUp();
 	bool existsWithName(std::string name);
 	void reload();
-	void useByName(std::string name);
+	Shader* useByName(std::string name);
 
 	void destroy();
 private:

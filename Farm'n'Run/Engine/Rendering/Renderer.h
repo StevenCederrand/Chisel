@@ -3,6 +3,7 @@
 #include <PCH/pch.h>
 #include <Engine/GameObjects/GameObject.h>
 #include <Engine/Materials/MaterialMap.h>
+#include <Engine/Shaders/ShaderMap.h>
 #include <Game/Camera/Camera.h>
 
 struct RenderMatrix {
@@ -21,10 +22,7 @@ public:
 
 	
 
-	//void render(GLuint VAO, int nrOfIndices);
 	void render();
-	void renderCube(RenderMatrix renderMatrix, GLuint VAO);
-	void render(const RenderMatrix& renderMatrix, const GameObject& gameObject);
 
 private:
 	Renderer();
@@ -33,6 +31,7 @@ private:
 	//RenderMatrix* m_renderMatrixes; //This pointer is to be deleted by the camera
 	std::vector<GameObject*> m_staticObjects;
 	std::vector<GameObject*> m_dynamicObjects;
+	ShaderMap* m_shaderMap;
 
 };
 
