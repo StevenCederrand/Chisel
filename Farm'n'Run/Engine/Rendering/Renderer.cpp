@@ -20,14 +20,10 @@ Renderer* Renderer::getInstance() {
 	return m_instance;
 }
 
-void Renderer::submit(GameObject* gameObject, int objType)
+void Renderer::submit(GameObject* gameObject, ObjectType objType)
 {
-
-	if (objType == 1) {
-		m_staticObjects.push_back(gameObject);
-	}
-	else {
-		m_dynamicObjects.push_back(gameObject);
+	if (objType == ObjectType::STATIC_OBJECT) {
+		m_staticObjects.emplace_back(gameObject);
 	}
 
 }
@@ -42,13 +38,13 @@ void Renderer::destroy() {
 	delete m_instance;
 }
 
-//Index based rendering
+//Index based rendering -- REMOVE
 void Renderer::render(const RenderMatrix& renderMatrix, const GameObject& gameObject) {
 	
 
 	ShaderMap::getInstance()->getShader("Forward")->setMat4("prjMatrix", renderMatrix.projMatrix);
 	ShaderMap::getInstance()->getShader("Forward")->setMat4("viewMatrix", renderMatrix.viewMatrix);
-	ShaderMap::getInstance()->getShader("Forward")->setMat4("modelMatrix", gameObject.getModelMatrix());
+	ShaderMap::getInstance()->getShader("Forward")->setMat4("modelMatrix", gameObject.getTransform().matrix);
 	for (int i = 0; i < gameObject.getMesh().size(); i++) {
 		std::string matName = gameObject.getMesh().at(i)->getMaterialName();
 
@@ -65,13 +61,14 @@ void Renderer::render(const RenderMatrix& renderMatrix, const GameObject& gameOb
 
 void Renderer::render()
 {
+	/*CHANGE THIS*/
 	ShaderMap::getInstance()->useByName("Forward");
 	ShaderMap::getInstance()->getShader("Forward")->setMat4("prjMatrix", m_camera->getProjectionMatrix());
 	ShaderMap::getInstance()->getShader("Forward")->setMat4("viewMatrix", m_camera->getViewMatrix());
 	
 
 	for (int i = 0; i < m_staticObjects.size(); i++) {
-		ShaderMap::getInstance()->getShader("Forward")->setMat4("modelMatrix", m_staticObjects.at(i)->getModelMatrix());
+		ShaderMap::getInstance()->getShader("Forward")->setMat4("modelMatrix", m_staticObjects.at(i)->getTransform().matrix);
 		for (int j = 0; j < m_staticObjects.at(i)->getMesh().size(); j++) {
 
 			std::string matName = m_staticObjects.at(i)->getMesh().at(j)->getMaterialName();
@@ -83,7 +80,7 @@ void Renderer::render()
 		}
 	}
 }
-
+// REMOVE
 void Renderer::renderCube(RenderMatrix renderMatrix, GLuint VAO)
 {
 	ShaderMap::getInstance()->getShader("Forward")->setMat4("prjMatrix", renderMatrix.projMatrix);

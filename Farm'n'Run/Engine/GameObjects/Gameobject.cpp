@@ -11,17 +11,23 @@ GameObject::GameObject(std::string name)
 	m_name = name;
 }
 //By inputing a mesh, we will automatically submit it to the renderer
-GameObject::GameObject(const std::string& name, const std::string& filePath, int objectType)
+GameObject::GameObject(const std::string& name, const std::string& filePath, const ObjectType& objectType)
 {
 	m_name = name;
 	loadMesh(filePath);
-	Chisel::GetChisel()->chiselSubmit(this, objectType);
+	Renderer::getInstance()->submit(this, objectType);
+	m_type = objectType;
+	//Initialize the transform
+	setWorldPosition(glm::vec3(0.0f));
+	setScale(glm::vec3(1.0f));
+	setRotation(glm::quat(glm::vec3(0, 0, 0)));
+
 }
 
 GameObject::~GameObject()
 {	
-	for (int i = 0; i < m_meshes.size(); i++) {
-		delete m_meshes.at(i);
+	for (Mesh* mesh : m_meshes) {
+		delete mesh;
 	}
 
 }
@@ -50,24 +56,39 @@ std::vector<Mesh*> GameObject::getMesh() const
 	return m_meshes;
 }
 
-const glm::vec3& GameObject::getWorldPostition() const
-{
-	return m_worldPosition;
+const Transform& GameObject::getTransform() const {
+	return m_transform;
 }
 
-const glm::mat4& GameObject::getModelMatrix() const
+void GameObject::setWorldPosition(const glm::vec3& position)
 {
-	return m_modelMatrix;
+	m_transform.position = position;
+	updateMatrix();
 }
 
-void GameObject::setWorldPosition(const glm::vec3 position)
+void GameObject::setRotation(const glm::quat& rotation)
 {
-	m_worldPosition = position;
-	m_modelMatrix = glm::translate(m_modelMatrix, m_worldPosition);
+	m_transform.rotation = rotation;
+	updateMatrix();
+}
+
+void GameObject::setScale(const glm::vec3& scale)
+{
+	m_transform.scale = scale;
+	updateMatrix();
 }
 
 void GameObject::translate(const glm::vec3& position)
 {
-	m_worldPosition += position;
-	m_modelMatrix = glm::translate(m_modelMatrix, m_worldPosition);
+	m_transform.position += position;
+	updateMatrix();
+}
+
+void GameObject::updateMatrix()
+{
+	m_transform.matrix = glm::mat4(1.0f);
+	m_transform.matrix = glm::translate(m_transform.matrix, m_transform.position);
+	m_transform.matrix *= glm::mat4_cast(m_transform.rotation);
+	m_transform.matrix = glm::scale(m_transform.matrix, m_transform.scale);
+
 }

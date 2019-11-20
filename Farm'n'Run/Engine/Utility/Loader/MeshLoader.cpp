@@ -114,7 +114,7 @@ std::string MeshLoader::setupMaterial(aiMaterial* material) {
 	material->Get(AI_MATKEY_COLOR_SPECULAR, col);
 	mat.specCol = glm::vec3(col.r, col.g, col.b);
 	
- 	//loadTextures(material, aiTextureType_DIFFUSE, mat, "Diffuse");
+ 	loadTextures(material, aiTextureType_DIFFUSE, mat, "Diffuse");
 		
 
 	MaterialMap::getInstance()->insertMat(name.C_Str(), mat);
@@ -140,12 +140,13 @@ void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, M
 		matTexture.first = rString.substr(rString.find_last_of("\\/") + 1, rString.length());
 		matTexture.second = type;  //Set the type for every texture
 
+		logInfo(matTexture.first);
 		//When we have determined the texture path, and the texture type.. 
 		//Insert it into the texture map
-		TextureMap::getInstance()->insert(matTexture.first, rString, matTexture.second);
+		//TextureMap::getInstance()->insert(matTexture.first, rString, matTexture.second);
 
 		//Then insert the pair into the material 
-		engineMat.textures.push_back(matTexture);
+		//engineMat.textures.push_back(matTexture);
 	}
 
 

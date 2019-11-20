@@ -37,8 +37,7 @@ Window::Window(int width, int height, std::string windowHint)
 		logError("Failed to initialize GLEW!");
 	}
 
-	// Vsync
-	m_vsync = true;
+	// Vsync --- Set to 60fps
 	glfwSwapInterval(1);
 
 	logTrace("Application successfully initialized");
@@ -53,7 +52,7 @@ Window::Window(int width, int height, std::string windowHint)
 Window::~Window()
 {
 	delete m_input;
-	//delete m_window;
+	delete m_window;
 }
 
 GLFWwindow* Window::getWindow()

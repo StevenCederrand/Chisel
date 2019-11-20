@@ -10,15 +10,11 @@ struct RenderMatrix {
 	glm::mat4 projMatrix;
 };
 
-//Used to determine what vector in the renderer to place the object in
-
-
-
 class Renderer {
 public:
 	static Renderer* getInstance();
 	//I should really only be submitting meshes!
-	void submit(GameObject* gameObject, int objType);
+	void submit(GameObject* gameObject, ObjectType objType);
 	void submitCamera(Camera* renderMatrix);
 
 	void destroy();

@@ -10,14 +10,9 @@ public:
 	
 
 	static Chisel* GetChisel();
-	
-	//Create a default shader
-	void createShader();
-	
+		
 	void setCamera(Camera* camera);
-
-	void chiselSubmit(GameObject* gameObject, int objType);
-
+	
 	void destroy();
 	void render();
 

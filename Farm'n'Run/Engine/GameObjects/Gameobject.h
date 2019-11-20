@@ -5,11 +5,22 @@
 #include <Engine/Utility/Loader/MeshLoader.h>
 
 
+enum ObjectType {
+	STATIC_OBJECT,
+};
+
+struct Transform {
+	glm::vec3 scale;
+	glm::vec3 position;
+	glm::quat rotation;
+	glm::mat4 matrix;
+};
+
 class GameObject {
 public:
 	GameObject();
 	GameObject(std::string name);//Still creating an empty
-	GameObject(const std::string& name, const std::string& filePath, int objType); //Load a mesh
+	GameObject(const std::string& name, const std::string& filePath, const ObjectType& objType); //Load a mesh
 
 	~GameObject();
 
@@ -20,16 +31,20 @@ public:
 	void setMesh(std::vector<Mesh*> mesh);
 	std::vector<Mesh*> getMesh() const;
 
-	const glm::vec3& getWorldPostition() const;
-	const glm::mat4& getModelMatrix() const;
-	void setWorldPosition(const glm::vec3 position);
+	const Transform& getTransform() const;
+	void setWorldPosition(const glm::vec3& position);
+	void setRotation(const glm::quat& rotation);
+	void setScale(const glm::vec3& scale);
+
 	void translate(const glm::vec3& position);
 
 private:
-	glm::mat4 m_modelMatrix;
-	glm::vec3 m_worldPosition;
-	std::vector<Mesh*> m_meshes;
+	void updateMatrix(); 
 
+	Transform m_transform;
+	
+	std::vector<Mesh*> m_meshes;
+	ObjectType m_type;
 	std::string m_name;
 
 };

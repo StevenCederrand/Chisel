@@ -3,8 +3,10 @@
 
 Chisel* Chisel::m_chisel = 0;
 
+
 Chisel::Chisel()
 {
+	ShaderMap::getInstance()->createShader("Forward", "vShader.glsl", "fShader.glsl");
 }
 
 Chisel* Chisel::GetChisel()
@@ -15,20 +17,9 @@ Chisel* Chisel::GetChisel()
 	return m_chisel;
 }
 
-//A default fragment shader
-void Chisel::createShader()
-{
-	ShaderMap::getInstance()->createShader("Forward", "vShader.glsl", "fShader.glsl");
-}
-
 void Chisel::setCamera(Camera* camera)
 {
 	Renderer::getInstance()->submitCamera(camera);
-}
-
-void Chisel::chiselSubmit(GameObject* gameObject, int objType)
-{
-	Renderer::getInstance()->submit(gameObject, objType);
 }
 
 //Careful when invoking this function. It will destroy chisel

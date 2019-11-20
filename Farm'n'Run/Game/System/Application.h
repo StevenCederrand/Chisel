@@ -22,7 +22,7 @@ private:
 	Window* m_window;
 	std::vector<GameObject*> m_GO;
 	GameObject* obj;
-
+	float rotation = 0;
 };
 
 

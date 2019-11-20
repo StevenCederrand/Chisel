@@ -15,7 +15,8 @@ void main() {
     vec3 normal = normalize(f_normal);
     vec3 lightDir = normalize(vec3(f_position.xyz - lightDirection));
     float diff = max(dot(normal, lightDir), 0.0f);
+    vec3 ambientCol = DiffuseCol * 0.1f;
 
 
-    color = vec4((DiffuseCol * diff), 1);
+    color = vec4(ambientCol + (DiffuseCol * diff), 1);
 }

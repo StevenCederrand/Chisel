@@ -7,7 +7,7 @@ Camera::Camera()
 	m_worldUp = glm::vec3(0, 1, 0);
 	m_cameraFace = glm::vec3(0, 0, -1);
 	m_camYaw = -90.0f;
-	m_camSpeed = 10;
+	m_camSpeed = 25;
 	m_sensitivity = 0.15f;
 	m_camPitch = 0;
 
@@ -94,16 +94,16 @@ void Camera::calcVectors()
 void Camera::keys(float deltaTime)
 {
 	if (Input::isKeyHeldDown(GLFW_KEY_W)) {
-		m_cameraPos += m_cameraFace * deltaTime;
+		m_cameraPos += m_cameraFace * deltaTime * m_camSpeed;
 	}
 	if (Input::isKeyHeldDown(GLFW_KEY_S)) {
-		m_cameraPos -= m_cameraFace * deltaTime;
+		m_cameraPos -= m_cameraFace * deltaTime * m_camSpeed;
 	}
 	if (Input::isKeyHeldDown(GLFW_KEY_A)) {
-		m_cameraPos -= m_camerRight * deltaTime;
+		m_cameraPos -= m_camerRight * deltaTime * m_camSpeed;
 	}
 	if (Input::isKeyHeldDown(GLFW_KEY_D)) {
-		m_cameraPos += m_camerRight * deltaTime;
+		m_cameraPos += m_camerRight * deltaTime * m_camSpeed;
 	}
 }
 

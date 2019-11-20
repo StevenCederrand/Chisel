@@ -19,7 +19,6 @@ public:
 private:
 	GLFWwindow* m_window;
 	Input* m_input;
-	bool m_vsync;
 	bool m_active;
 };
 
