@@ -32,7 +32,7 @@ public:
 	std::vector<Mesh*> getMesh() const;
 
 	const Transform& getTransform() const;
-	void setWorldPosition(const glm::vec3& position);
+	void setPosition(const glm::vec3& position);
 	void setRotation(const glm::quat& rotation);
 	void setScale(const glm::vec3& scale);
 

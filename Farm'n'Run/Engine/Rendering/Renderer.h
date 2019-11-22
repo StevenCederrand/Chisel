@@ -32,6 +32,7 @@ private:
 	std::vector<GameObject*> m_staticObjects;
 	std::vector<GameObject*> m_dynamicObjects;
 	ShaderMap* m_shaderMap;
+	bool m_wireframe;
 
 };
 

@@ -16,23 +16,23 @@ ShaderMap* ShaderMap::getInstance()
 	return m_shaderMapInstance;
 }
 
-Shader* ShaderMap::createShader(std::string name, std::string vsName, std::string fsName)
+Shader* ShaderMap::createShader(const SHADER_ID& shaderID, std::string vsName, std::string fsName)
 {
 	//If we have already reserved the name
-	if (existsWithName(name)) {
+	if (existsWithName(shaderID)) {
 		return nullptr;
 	}
 
 	Shader* shader = new Shader(vsName, fsName);
-	m_shaderMap[name] = shader;
+	m_shaderMap[shaderID] = shader;
 	return shader;
 }
 
-Shader* ShaderMap::getShader(std::string name)
+Shader* ShaderMap::getShader(const SHADER_ID& shaderID)
 {
-	if (existsWithName(name))
+	if (existsWithName(shaderID))
 	{
-		return m_shaderMap[name];
+		return m_shaderMap[shaderID];
 	}
 
 	return nullptr;
@@ -40,7 +40,7 @@ Shader* ShaderMap::getShader(std::string name)
 
 void ShaderMap::cleanUp()
 {
-	std::map<std::string, Shader*>::iterator it;
+	std::map<SHADER_ID, Shader*>::iterator it;
 
 	for (it = m_shaderMap.begin(); it != m_shaderMap.end(); it++) {
 		delete it->second;
@@ -49,16 +49,16 @@ void ShaderMap::cleanUp()
 	m_shaderMap.clear();
 }
 
-bool ShaderMap::existsWithName(std::string name)
+bool ShaderMap::existsWithName(const SHADER_ID& shaderID)
 {
-	if (m_shaderMap.find(name) != m_shaderMap.end()) {
+	if (m_shaderMap.find(shaderID) != m_shaderMap.end()) {
 		return true;
 	}
 	return false;
 }
 
 void ShaderMap::reload() {
-	std::map<std::string, Shader*>::iterator it;
+	std::map<SHADER_ID, Shader*>::iterator it;
 
 	for (it = m_shaderMap.begin(); it != m_shaderMap.end(); it++) {
 		Shader* tempShader = new Shader(it->second->getShaderNames()[0], it->second->getShaderNames()[1]);
@@ -78,11 +78,11 @@ void ShaderMap::reload() {
 	}
 }
 
-Shader* ShaderMap::useByName(std::string name) {
+Shader* ShaderMap::useByName(const SHADER_ID& shaderID) {
 
-	if (existsWithName(name)) {
-		m_shaderMap[name]->use();
-		return m_shaderMap[name];
+	if (existsWithName(shaderID)) {
+		m_shaderMap[shaderID]->use();
+		return m_shaderMap[shaderID];
 	}
 	return nullptr;
 }

@@ -33,7 +33,7 @@ Application::~Application()
 
 bool Application::init()
 {
-	m_window = new Window(1280, 720, "Chisel -- Engine");
+	m_window = new Window(1280 * 2, 720 * 2, "Chisel -- Engine");
 
 	return m_window->isActive();
 }
@@ -45,11 +45,12 @@ void Application::update()
 	
 	Chisel::GetChisel()->setCamera(m_camera);
 	//Create and place the objects into a vector
-	m_GO.emplace_back(new GameObject("thing", "thing.fbx", ObjectType::STATIC_OBJECT));
-	m_GO.emplace_back(new GameObject("Ico", "icosphere.fbx", ObjectType::STATIC_OBJECT));
+	m_GO.emplace_back(new GameObject("gun", "gun.fbx", ObjectType::STATIC_OBJECT));
+	m_GO[0]->setScale(glm::vec3(0.05f));
+	m_GO[0]->setPosition(glm::vec3(0, 0, 0));
+	m_GO[0]->setRotation(glm::quat(glm::vec3(xRotation, 0, 0)));
 
-	m_GO[1]->setWorldPosition(glm::vec3(2, 0, 0));
-	m_GO[0]->setRotation(glm::quat(glm::vec3(-1.7, 0, 0)));
+
 	//While the window is active
 	while (m_window->isActive()) {
 		DeltaTime::startDeltaTime();
@@ -60,6 +61,19 @@ void Application::update()
 			m_window->closeWindow();
 		}
 
+		if (Input::isKeyHeldDown(GLFW_KEY_I)) {
+			logTrace(std::to_string(xRotation));
+			xRotation += 0.1f;
+			m_GO[0]->setRotation(glm::quat(glm::vec3(xRotation, 0, 0)));
+		}
+		else if (Input::isKeyHeldDown(GLFW_KEY_K)) {
+			xRotation -= 0.1f;
+			m_GO[0]->setRotation(glm::quat(glm::vec3(xRotation, 0, 0)));
+		}
+
+		if (Input::isKeyPressed(GLFW_KEY_F1)) {
+			ShaderMap::getInstance()->reload();
+		}
 		
 		m_camera->update(DeltaTime::deltaTime);
 		

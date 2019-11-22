@@ -16,6 +16,7 @@ Renderer* Renderer::getInstance() {
 		glCullFace(GL_BACK);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_MULTISAMPLE);
 		
 	}
 	return m_instance;
@@ -43,11 +44,20 @@ void Renderer::render()
 {
 	/*CHANGE THIS*/
 	Shader* shader;
-	shader = m_shaderMap->useByName("Forward");
+	shader = m_shaderMap->useByName(SHADER_ID::Forward);
 
 	shader->setMat4("prjMatrix", m_camera->getProjectionMatrix());
 	shader->setMat4("viewMatrix", m_camera->getViewMatrix());
 
+	//If tab and wireframe off
+	if (Input::isKeyPressed(GLFW_KEY_TAB) && !m_wireframe) {
+		m_wireframe = true;
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else if(Input::isKeyPressed(GLFW_KEY_TAB) && m_wireframe){
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
+		m_wireframe = false;
+	}
 
 	for (int i = 0; i < m_staticObjects.size(); i++) {
 		shader->setMat4("modelMatrix", m_staticObjects.at(i)->getTransform().matrix);

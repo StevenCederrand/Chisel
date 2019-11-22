@@ -3,22 +3,28 @@
 #include <PCH/pch.h>
 #include <Engine/Shaders/Shader.h>
 
+
+enum SHADER_ID {
+	Forward, 
+};
+
+
 class ShaderMap {
 public:
 	static ShaderMap* getInstance();
 	//@ vsName & fsName enter just the name of the shader.
-	Shader* createShader(std::string name, std::string vsName, std::string fsName);
-	Shader* getShader(std::string name);
+	Shader* createShader(const SHADER_ID& shaderID, std::string vsName, std::string fsName);
+	Shader* getShader(const SHADER_ID& shaderID);
 	void cleanUp();
-	bool existsWithName(std::string name);
+	bool existsWithName(const SHADER_ID& shaderID);
 	void reload();
-	Shader* useByName(std::string name);
+	Shader* useByName(const SHADER_ID& shaderID);
 
 	void destroy();
 private:
 	ShaderMap();
 	static ShaderMap* m_shaderMapInstance;
-	std::map<std::string, Shader*> m_shaderMap;
+	std::map<SHADER_ID, Shader*> m_shaderMap;
 };
 
 

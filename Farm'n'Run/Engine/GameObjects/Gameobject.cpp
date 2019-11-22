@@ -18,7 +18,7 @@ GameObject::GameObject(const std::string& name, const std::string& filePath, con
 	Renderer::getInstance()->submit(this, objectType);
 	m_type = objectType;
 	//Initialize the transform
-	setWorldPosition(glm::vec3(0.0f));
+	setPosition(glm::vec3(0.0f));
 	setScale(glm::vec3(1.0f));
 	setRotation(glm::quat(glm::vec3(0, 0, 0)));
 
@@ -60,7 +60,7 @@ const Transform& GameObject::getTransform() const {
 	return m_transform;
 }
 
-void GameObject::setWorldPosition(const glm::vec3& position)
+void GameObject::setPosition(const glm::vec3& position)
 {
 	m_transform.position = position;
 	updateMatrix();
