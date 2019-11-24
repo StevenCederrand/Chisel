@@ -5,6 +5,19 @@ Renderer* Renderer::m_instance;
 
 Renderer::Renderer() {
 	m_shaderMap = ShaderMap::getInstance();
+#if USING_SKYBOX
+	initSkybox();
+#endif
+}
+
+Renderer::~Renderer() {
+#if USING_SKYBOX
+	delete m_skybox;
+#endif
+}
+void Renderer::initSkybox()
+{
+	m_skybox = new Skybox();
 }
 
 Renderer* Renderer::getInstance() {
@@ -42,7 +55,9 @@ void Renderer::destroy() {
 
 void Renderer::render()
 {
-	/*CHANGE THIS*/
+#if USING_SKYBOX //Skybox rendering
+	
+#endif
 	Shader* shader;
 	shader = m_shaderMap->useByName(SHADER_ID::Forward);
 

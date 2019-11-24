@@ -136,7 +136,7 @@ void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, M
 
 		rString = str.C_Str();
 
-		//std::cout << << std::endl;
+		std::cout << rString << std::endl;
 		matTexture.first = rString.substr(rString.find_last_of("\\/") + 1, rString.length());
 		matTexture.second = type;  //Set the type for every texture
 

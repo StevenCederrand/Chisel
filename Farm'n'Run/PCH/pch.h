@@ -17,6 +17,7 @@
 #include <thread>
 #include <string>
 #include <stdio.h>
+#include <string_view>
 
 //GL
 #include <GL/glew.h>
@@ -46,6 +47,8 @@
 #define TEXTURE_PATH "Assets/Textures/"
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
+
+const char* texturePath = "Assets/Textures/";
 
 
 #endif 

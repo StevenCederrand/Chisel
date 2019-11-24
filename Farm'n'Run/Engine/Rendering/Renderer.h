@@ -4,6 +4,8 @@
 #include <Engine/GameObjects/GameObject.h>
 #include <Engine/Materials/MaterialMap.h>
 #include <Engine/Shaders/ShaderMap.h>
+#include <Engine/Rendering/Skybox.h>
+#include <Engine/Settings/Settings.h>
 #include <Game/Camera/Camera.h>
 
 struct RenderMatrix {
@@ -19,15 +21,19 @@ public:
 	void submitCamera(Camera* renderMatrix);
 
 	void destroy();
-
 	
 
 	void render();
 
 private:
 	Renderer();
+	~Renderer();
 	static Renderer* m_instance;
+	void initSkybox();
 	Camera* m_camera;
+
+	Skybox* m_skybox;
+
 	//RenderMatrix* m_renderMatrixes; //This pointer is to be deleted by the camera
 	std::vector<GameObject*> m_staticObjects;
 	std::vector<GameObject*> m_dynamicObjects;
