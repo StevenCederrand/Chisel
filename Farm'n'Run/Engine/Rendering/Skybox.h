@@ -19,12 +19,12 @@ private:
 	void loadSkybox();
 	
 	std::vector<std::string> m_textures{
-		"/Skybox/rt.jpg", 
-		"/Skybox/lf.jpg",
-		"/Skybox/up.jpg",
-		"/Skybox/dn.jpg",
-		"/Skybox/bk.jpg",
-		"/Skybox/ft.jpg",
+		"/Skybox/rt.png", 
+		"/Skybox/lf.png",
+		"/Skybox/up.png",
+		"/Skybox/dn.png",
+		"/Skybox/bk.png",
+		"/Skybox/ft.png",
 	};
 
 	SkyboxData m_skyboxData;
