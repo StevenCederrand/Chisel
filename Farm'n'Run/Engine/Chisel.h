@@ -18,7 +18,7 @@ public:
 
 private:
 	static Chisel* m_chisel;
-	
+	ShaderMap* m_shaderMap;
 
 };
 

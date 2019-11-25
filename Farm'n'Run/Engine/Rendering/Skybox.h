@@ -21,7 +21,7 @@ private:
 	std::vector<std::string> m_textures{
 		"/Skybox/rt.jpg", 
 		"/Skybox/lf.jpg",
-		"/Skybox/up.jpg"
+		"/Skybox/up.jpg",
 		"/Skybox/dn.jpg",
 		"/Skybox/bk.jpg",
 		"/Skybox/ft.jpg",

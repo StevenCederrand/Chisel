@@ -37,7 +37,7 @@ void Skybox::loadSkybox()
 			stbi_image_free(data);
 		}
 		else {
-			logTrace("Failed to load CUBEMAP texture");
+			logError("Failed to load CUBEMAP texture {0}", m_textures.at(i));
 			stbi_image_free(data);
 			return;
 		}

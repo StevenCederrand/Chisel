@@ -14,22 +14,24 @@ struct RenderMatrix {
 };
 
 class Renderer {
-public:
+public: /* Functions */
 	static Renderer* getInstance();
 	//I should really only be submitting meshes!
 	void submit(GameObject* gameObject, ObjectType objType);
 	void submitCamera(Camera* renderMatrix);
 
 	void destroy();
-	
-
 	void render();
 
-private:
+private: /* Functions */
 	Renderer();
 	~Renderer();
+
 	static Renderer* m_instance;
+
 	void initSkybox();
+	void bindMatrixes(Shader* shader); //Used to bind the view- and projection matrix
+private: /* Variables */
 	Camera* m_camera;
 
 	Skybox* m_skybox;

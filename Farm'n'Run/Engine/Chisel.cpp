@@ -6,7 +6,9 @@ Chisel* Chisel::m_chisel = 0;
 
 Chisel::Chisel()
 {
-	ShaderMap::getInstance()->createShader(SHADER_ID::Forward, "vShader.glsl", "fShader.glsl");
+	m_shaderMap = ShaderMap::getInstance();
+	m_shaderMap->createShader(SHADER_ID::FORWARD, "vShader.glsl", "fShader.glsl");
+	m_shaderMap->createShader(SHADER_ID::SKYBOX, "SkyboxVS.glsl", "SkyboxFS.glsl");
 }
 
 Chisel* Chisel::GetChisel()

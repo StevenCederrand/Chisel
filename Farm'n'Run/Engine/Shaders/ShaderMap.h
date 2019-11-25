@@ -5,7 +5,8 @@
 
 
 enum SHADER_ID {
-	Forward, 
+	FORWARD,
+	SKYBOX,
 };
 
 

@@ -20,6 +20,11 @@ void Renderer::initSkybox()
 	m_skybox = new Skybox();
 }
 
+void Renderer::bindMatrixes(Shader* shader) {
+	shader->setMat4("prjMatrix", m_camera->getProjectionMatrix());
+	shader->setMat4("viewMatrix", m_camera->getViewMatrix());
+}
+
 Renderer* Renderer::getInstance() {
 	if (m_instance == NULL) {
 		m_instance = new Renderer();
@@ -55,14 +60,10 @@ void Renderer::destroy() {
 
 void Renderer::render()
 {
-#if USING_SKYBOX //Skybox rendering
-	
-#endif
 	Shader* shader;
-	shader = m_shaderMap->useByName(SHADER_ID::Forward);
+	shader = m_shaderMap->useByName(SHADER_ID::FORWARD);
 
-	shader->setMat4("prjMatrix", m_camera->getProjectionMatrix());
-	shader->setMat4("viewMatrix", m_camera->getViewMatrix());
+	bindMatrixes(shader);
 
 	//If tab and wireframe off
 	if (Input::isKeyPressed(GLFW_KEY_TAB) && !m_wireframe) {
@@ -87,4 +88,20 @@ void Renderer::render()
 			glBindVertexArray(0);
 		}
 	}
+
+	/*If the setting for using a skybox is enabled*/
+#if USING_SKYBOX 
+	glDepthFunc(GL_LEQUAL);
+	glDepthMask(false);
+	shader = m_shaderMap->useByName(SHADER_ID::SKYBOX);
+	shader->setMat4("prjMatrix", m_camera->getProjectionMatrix());
+	shader->setMat4("viewMatrix", glm::mat4(glm::mat3(m_camera->getViewMatrix()))); //Remove all use of the final row and column
+
+	glBindVertexArray(m_skybox->getSkyboxData().m_vao);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox->getSkyboxData().m_textureID);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glDepthMask(true);
+	glDepthFunc(GL_LESS);
+#endif
+
 }
