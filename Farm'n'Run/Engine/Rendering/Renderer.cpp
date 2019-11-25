@@ -61,31 +61,37 @@ void Renderer::destroy() {
 void Renderer::render()
 {
 	Shader* shader;
-	shader = m_shaderMap->useByName(SHADER_ID::FORWARD);
 
-	bindMatrixes(shader);
+	if (m_staticObjects.size() <= 0) {
 
-	//If tab and wireframe off
-	if (Input::isKeyPressed(GLFW_KEY_TAB) && !m_wireframe) {
-		m_wireframe = true;
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
-	else if(Input::isKeyPressed(GLFW_KEY_TAB) && m_wireframe){
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
-		m_wireframe = false;
-	}
+	else {
+		shader = m_shaderMap->useByName(SHADER_ID::FORWARD);
 
-	for (int i = 0; i < m_staticObjects.size(); i++) {
-		shader->setMat4("modelMatrix", m_staticObjects.at(i)->getTransform().matrix);
+		bindMatrixes(shader);
 
-		for (int j = 0; j < m_staticObjects.at(i)->getMesh().size(); j++) {
+		//If tab and wireframe off
+		if (Input::isKeyPressed(GLFW_KEY_TAB) && !m_wireframe) {
+			m_wireframe = true;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else if(Input::isKeyPressed(GLFW_KEY_TAB) && m_wireframe){
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
+			m_wireframe = false;
+		}
 
-			std::string matName = m_staticObjects.at(i)->getMesh().at(j)->getMaterialName();
-			shader->setMaterial(MaterialMap::getInstance()->getMaterial(matName));
+		for (int i = 0; i < m_staticObjects.size(); i++) {
+			shader->setMat4("modelMatrix", m_staticObjects.at(i)->getTransform().matrix);
 
-			glBindVertexArray(m_staticObjects.at(i)->getMesh().at(j)->getBuffers().m_VAO);
-			glDrawElements(GL_TRIANGLES, m_staticObjects.at(i)->getMesh().at(j)->getNrOfIndices(), GL_UNSIGNED_INT, NULL);
-			glBindVertexArray(0);
+			for (int j = 0; j < m_staticObjects.at(i)->getMesh().size(); j++) {
+
+				std::string matName = m_staticObjects.at(i)->getMesh().at(j)->getMaterialName();
+				shader->setMaterial(MaterialMap::getInstance()->getMaterial(matName));
+
+				glBindVertexArray(m_staticObjects.at(i)->getMesh().at(j)->getBuffers().m_VAO);
+				glDrawElements(GL_TRIANGLES, m_staticObjects.at(i)->getMesh().at(j)->getNrOfIndices(), GL_UNSIGNED_INT, NULL);
+				glBindVertexArray(0);
+			}
 		}
 	}
 

@@ -33,7 +33,7 @@ Application::~Application()
 
 bool Application::init()
 {
-	m_window = new Window(1280 * 2, 720 * 2, "Chisel -- Engine");
+	m_window = new Window(1280, 720, "Chisel -- Engine");
 
 	return m_window->isActive();
 }
@@ -62,7 +62,6 @@ void Application::update()
 		}
 
 		if (Input::isKeyHeldDown(GLFW_KEY_I)) {
-			logTrace(std::to_string(xRotation));
 			xRotation += 0.1f;
 			m_GO[0]->setRotation(glm::quat(glm::vec3(xRotation, 0, 0)));
 		}
