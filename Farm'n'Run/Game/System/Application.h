@@ -13,15 +13,10 @@ public:
 	bool init();
 
 	void update();
-
-
-
-
 private:
 	Camera* m_camera;
 	Window* m_window;
 	std::vector<GameObject*> m_GO;
-	GameObject* obj;
 	float xRotation = 4.6f;
 };
 

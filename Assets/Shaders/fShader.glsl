@@ -1,6 +1,6 @@
 #version 430
 
-vec3 lightDirection = vec3(-    1.0f, 0.0f, 0);
+vec3 lightDirection = vec3(0.0f, -1.0f, 0);
 
 in vec2 f_uv;
 in vec3 f_normal;
@@ -10,7 +10,7 @@ uniform vec3 DiffuseCol;
 
 out vec4 color;
 
-float G_DSTR = 100;
+float G_DSTR = 1;
 
 void main() {
     vec3 col = vec3(0);

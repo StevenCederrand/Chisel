@@ -24,6 +24,7 @@ public:
 	void destroy();
 private:
 	ShaderMap();
+
 	static ShaderMap* m_shaderMapInstance;
 	std::map<SHADER_ID, Shader*> m_shaderMap;
 };

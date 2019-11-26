@@ -22,18 +22,23 @@ namespace DeltaTime {
 
 Application::Application()
 {
+
 }
 
 Application::~Application()
 {
+	for (size_t i = 0; i < m_GO.size(); i++)
+	{
+		delete m_GO[i];
+	}
 	delete m_camera;
-	delete obj;
+	delete m_window;
 	Chisel::GetChisel()->destroy();
 }
 
 bool Application::init()
 {
-	m_window = new Window(1280, 720, "Chisel -- Engine");
+	m_window = new Window(1280 * 2, 720 * 2, "Chisel -- Engine");
 
 	return m_window->isActive();
 }
@@ -45,11 +50,8 @@ void Application::update()
 	
 	Chisel::GetChisel()->setCamera(m_camera);
 	//Create and place the objects into a vector
-	m_GO.emplace_back(new GameObject("gun", "gun.fbx", ObjectType::STATIC_OBJECT));
-	m_GO[0]->setScale(glm::vec3(0.05f));
-	m_GO[0]->setPosition(glm::vec3(0, 0, 0));
-	m_GO[0]->setRotation(glm::quat(glm::vec3(xRotation, 0, 0)));
-
+	m_GO.emplace_back(new GameObject("Sponza", "sponza.obj", ObjectType::STATIC_OBJECT));
+	m_GO[0]->setScale(glm::vec3(0.01f));
 
 	//While the window is active
 	while (m_window->isActive()) {

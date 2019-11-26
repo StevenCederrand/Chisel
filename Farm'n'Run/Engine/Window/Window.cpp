@@ -52,7 +52,6 @@ Window::Window(int width, int height, std::string windowHint)
 Window::~Window()
 {
 	delete m_input;
-	delete m_window;
 }
 
 GLFWwindow* Window::getWindow()

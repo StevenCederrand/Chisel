@@ -18,7 +18,7 @@ public: /* Functions */
 	static Renderer* getInstance();
 	//I should really only be submitting meshes!
 	void submit(GameObject* gameObject, ObjectType objType);
-	void submitCamera(Camera* renderMatrix);
+	void submitCamera(Camera* camera);
 
 	void destroy();
 	void render();
@@ -27,13 +27,12 @@ private: /* Functions */
 	Renderer();
 	~Renderer();
 
-	static Renderer* m_instance;
 
 	void initSkybox();
 	void bindMatrixes(Shader* shader); //Used to bind the view- and projection matrix
 private: /* Variables */
+	static Renderer* m_instance;
 	Camera* m_camera;
-
 	Skybox* m_skybox;
 
 	//RenderMatrix* m_renderMatrixes; //This pointer is to be deleted by the camera

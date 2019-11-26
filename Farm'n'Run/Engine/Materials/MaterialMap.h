@@ -26,10 +26,11 @@ public:
 	void remove(const std::string& name);
 
 private:
+	MaterialMap();
+	~MaterialMap();
 	bool existsWithName(const std::string& name);
 	static MaterialMap* m_materialMap;
 	std::map<std::string, Material> m_materials;
-	TextureMap m_textureMap;
 };
 
 

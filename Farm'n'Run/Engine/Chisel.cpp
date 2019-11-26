@@ -31,7 +31,6 @@ void Chisel::destroy()
 	ShaderMap::getInstance()->destroy();
 	MaterialMap::getInstance()->destroy();
 	TextureMap::getInstance()->destroy();
-
 	delete m_chisel;
 }
 

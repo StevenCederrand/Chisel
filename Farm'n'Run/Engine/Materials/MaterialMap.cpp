@@ -3,6 +3,12 @@
 
 MaterialMap* MaterialMap::m_materialMap;
 
+MaterialMap::MaterialMap() {
+}
+
+MaterialMap::~MaterialMap() {
+
+}
 
 MaterialMap* MaterialMap::getInstance()
 {
@@ -62,7 +68,7 @@ void MaterialMap::remove(const std::string& name)
 
 	if (it->second.hasBoundTextures) {
 		for (int i = 0; i < it->second.textures.size(); i++) {
-			m_textureMap.removeTexture(it->second.textures.at(i).first);
+			//m_textureMap->removeTexture(it->second.textures.at(i).first);
 		}
 	}
 }

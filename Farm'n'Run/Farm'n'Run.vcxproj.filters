@@ -24,9 +24,6 @@
     <ClCompile Include="Engine\Utility\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\GameObjects\PrimitiveCube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -83,9 +80,6 @@
     <ClInclude Include="Engine\Utility\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\GameObjects\PrimitiveCube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -111,9 +105,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObjects\Gameobject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObjects\Interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utility\Loader\MeshLoader.h">

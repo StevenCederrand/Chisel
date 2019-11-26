@@ -143,7 +143,7 @@ void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, M
 		logInfo(matTexture.first);
 		//When we have determined the texture path, and the texture type.. 
 		//Insert it into the texture map
-		//TextureMap::getInstance()->insert(matTexture.first, rString, matTexture.second);
+		//TextureMap::getInstance()->insert(matTexture.first, rString);
 
 		//Then insert the pair into the material 
 		//engineMat.textures.push_back(matTexture);

@@ -168,7 +168,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Chisel.cpp" />
-    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\GameObjects\PrimitiveCube.cpp" />
     <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Materials\MaterialMap.cpp" />
     <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\stb_image.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -213,13 +212,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Chisel.h" />
-    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\GameObjects\PrimitiveCube.h" />
     <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Materials\MaterialMap.h" />
     <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\stb_image.h" />
     <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\TextureMap.h" />
     <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Window\Window.h" />
     <ClInclude Include="Engine\GameObjects\Gameobject.h" />
-    <ClInclude Include="Engine\GameObjects\Interface.h" />
     <ClInclude Include="Engine\GameObjects\Mesh.h" />
     <ClInclude Include="Engine\Rendering\Skybox.h" />
     <ClInclude Include="Engine\Settings\Settings.h" />
