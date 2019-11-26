@@ -26,6 +26,10 @@ Application::Application()
 
 Application::~Application()
 {
+	for (size_t i = 0; i < m_GO.size(); i++)
+	{
+		delete m_GO[i];
+	}
 	delete m_camera;
 	delete obj;
 	Chisel::GetChisel()->destroy();

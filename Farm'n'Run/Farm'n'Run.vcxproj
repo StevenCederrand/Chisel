@@ -167,35 +167,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Chisel.cpp" />
-    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\GameObjects\PrimitiveCube.cpp" />
-    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Materials\MaterialMap.cpp" />
-    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\stb_image.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    <ClCompile Include="Engine\Chisel.cpp" />
+    <ClCompile Include="Engine\GameObjects\Gameobject.cpp" />
+    <ClCompile Include="Engine\GameObjects\Mesh.cpp" />
+    <ClCompile Include="Engine\Materials\MaterialMap.cpp" />
+    <ClCompile Include="Engine\Rendering\Skybox.cpp" />
+    <ClCompile Include="Engine\Textures\stb_image.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\TextureMap.cpp" />
-    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Window\Window.cpp" />
-    <ClCompile Include="Engine\GameObjects\Gameobject.cpp" />
-    <ClCompile Include="Engine\GameObjects\Mesh.cpp" />
-    <ClCompile Include="Engine\Rendering\Skybox.cpp" />
+    <ClCompile Include="Engine\Textures\TextureMap.cpp" />
     <ClCompile Include="Engine\Utility\Loader\MeshLoader.cpp" />
+    <ClCompile Include="Engine\Window\Window.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Rendering\Renderer.cpp" />
     <ClCompile Include="Engine\Shaders\Shader.cpp" />
     <ClCompile Include="Engine\Shaders\ShaderMap.cpp" />
-    <ClCompile Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\PCH\pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="Game\System\Application.cpp" />
     <ClCompile Include="Engine\Utility\Input.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -210,28 +197,33 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PCH\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Chisel.h" />
-    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\GameObjects\PrimitiveCube.h" />
-    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Materials\MaterialMap.h" />
-    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\stb_image.h" />
-    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Textures\TextureMap.h" />
-    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\Engine\Window\Window.h" />
+    <ClInclude Include="Engine\Chisel.h" />
     <ClInclude Include="Engine\GameObjects\Gameobject.h" />
     <ClInclude Include="Engine\GameObjects\Interface.h" />
     <ClInclude Include="Engine\GameObjects\Mesh.h" />
+    <ClInclude Include="Engine\Materials\MaterialMap.h" />
     <ClInclude Include="Engine\Rendering\Skybox.h" />
     <ClInclude Include="Engine\Settings\Settings.h" />
+    <ClInclude Include="Engine\Textures\stb_image.h" />
+    <ClInclude Include="Engine\Textures\TextureMap.h" />
     <ClInclude Include="Engine\Utility\Loader\MeshLoader.h" />
+    <ClInclude Include="Engine\Window\Window.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Engine\Rendering\Renderer.h" />
     <ClInclude Include="Engine\Shaders\Shader.h" />
     <ClInclude Include="Engine\Shaders\ShaderMap.h" />
-    <ClInclude Include="..\..\..\Farm %27n%27 Run\Farm%27n%27Run\Farm%27n%27Run\PCH\pch.h" />
     <ClInclude Include="Game\System\Application.h" />
     <ClInclude Include="Engine\Utility\Input.h" />
     <ClInclude Include="Engine\Utility\Log.h" />
+    <ClInclude Include="PCH\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
