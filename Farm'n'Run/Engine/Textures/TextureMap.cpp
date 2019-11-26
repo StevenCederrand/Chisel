@@ -35,21 +35,19 @@ void TextureMap::insert(const std::string& textureName, const std::string& textu
 	long long textureHash = hash(textureName);
 	
 	if (m_textures.find(textureHash) != m_textures.end()) {	//If the texture does exist
-		m_textures[textureHash].refCount += 1;
-		
-		
+		m_textures[textureHash].refCount += 1;		
 	}
 	else {
-		Texture tex;
-		tex.refCount = 1;
-		tex.textureHash = textureHash;
-
 		/* CREATE THE TEXTURE */
 		GLuint texture;
 		int width, height, nrOfComponents;
 		unsigned char* textureData = stbi_load(textureFile.c_str(), &width, &height, &nrOfComponents, 0);
 
 		if (textureData) {
+			Texture tex;
+			tex.refCount = 1;
+			tex.textureHash = textureHash;
+
 			GLenum textureFormat;
 			if (nrOfComponents == 1) {
 				textureFormat = GL_RED;
@@ -80,20 +78,7 @@ void TextureMap::insert(const std::string& textureName, const std::string& textu
 			logWarning("Failed to read texture");
 		}
 		stbi_image_free(textureData);
-
 	}
-
-
-
-	/*
-	//If the texture already exists in the textureMap
-	if (textureExists(textureName)) {
-		m_textures[textureName].binds++;
-		logWarning("Texture already exists");
-		return;
-	}
-
-*/
 }
 
 long long TextureMap::hash(const std::string& title)
@@ -144,6 +129,15 @@ void TextureMap::cleanUp()
 	//}
 
 	//m_textures.clear();
+}
+
+void TextureMap::dump()
+{
+	std::map<long long, Texture>::iterator it;
+	for (it = m_textures.begin(); it != m_textures.end(); it++)
+	{
+		std::cout << it->second.textureID << " " << it->second.refCount << " " << it->second.textureHash << " \n";
+	}
 }
 
 

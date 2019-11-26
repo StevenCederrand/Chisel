@@ -39,6 +39,8 @@ void GameObject::loadMesh(std::string filePath)
 	//Interpret the mesh locally. The game doesn't really need to manage such things
 	m_meshes = meshLoader.interpretMesh(filePath);
 
+	TextureMap::getInstance()->dump();
+
 }
 
 void GameObject::setMesh(Mesh* mesh)

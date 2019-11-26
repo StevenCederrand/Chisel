@@ -136,20 +136,18 @@ void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, M
 
 		rString = str.C_Str();
 
-		std::cout << rString << std::endl;
+		//std::cout << rString << std::endl;
 		matTexture.first = rString.substr(rString.find_last_of("\\/") + 1, rString.length());
 		matTexture.second = type;  //Set the type for every texture
 
-		logInfo(matTexture.first);
+		//logInfo(matTexture.first);
 		//When we have determined the texture path, and the texture type.. 
 		//Insert it into the texture map
-		//TextureMap::getInstance()->insert(matTexture.first, rString);
+		TextureMap::getInstance()->insert(matTexture.first, TEXTURE_PATH + rString);
 
 		//Then insert the pair into the material 
 		//engineMat.textures.push_back(matTexture);
 	}
-
-
 }
 
 /*

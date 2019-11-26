@@ -29,6 +29,9 @@ public:
 	//Remove all of the textures
 	void cleanUp();
 
+	//Dumps all of the texture data
+	void dump();
+
 private:
 	TextureMap();
 	~TextureMap();
