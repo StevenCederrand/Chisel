@@ -15,7 +15,7 @@ public:
 
 	//Returns the materialName
 	Material* loadMaterial(aiMaterial* material);
-	void loadTextures(aiMaterial* material, aiTextureType textureType, Material* engineMat, const std::string& type);
+	void loadTextures(aiMaterial* material, aiTextureType textureType, Material* engineMat);
 
 	TextureMap* m_textureMap;
 };

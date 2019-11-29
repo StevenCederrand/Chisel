@@ -74,10 +74,12 @@ GLuint TextureMap::insert(const std::string& textureName, const std::string& tex
 
 			//Assign the texture
 			m_textures[textureHash] = tex;
+			stbi_image_free(textureData);
 			return tex.textureID;
 		}
 		else {
 			logWarning("Failed to read texture");
+			stbi_image_free(textureData);
 			return -1;
 		}
 		stbi_image_free(textureData);

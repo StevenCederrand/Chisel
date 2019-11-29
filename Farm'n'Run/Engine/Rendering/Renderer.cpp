@@ -97,7 +97,6 @@ void Renderer::render()
 
 	/*If the setting for using a skybox is enabled*/
 #if USING_SKYBOX 
-	
 	glDepthFunc(GL_LEQUAL);
 	glDepthMask(false);
 	shader = m_shaderMap->useByName(SHADER_ID::SKYBOX);

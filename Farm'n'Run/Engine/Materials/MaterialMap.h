@@ -4,6 +4,7 @@
 #include <Engine/Textures/TextureMap.h>
 
 struct Material {
+	std::string name;
 	glm::vec3 ambientCol;
 	glm::vec3 diffuseCol;
 	glm::vec3 specCol;

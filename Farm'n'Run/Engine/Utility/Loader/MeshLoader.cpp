@@ -121,7 +121,10 @@ Material* MeshLoader::loadMaterial(aiMaterial* material) {
 		material->Get(AI_MATKEY_COLOR_SPECULAR, col);
 		mat->specCol = glm::vec3(col.r, col.g, col.b);
 
+		mat->name = name.C_Str();
 	
+		loadTextures(material, aiTextureType::aiTextureType_DIFFUSE, mat);
+
 		MaterialMap::getInstance()->insertMat(name.C_Str(), mat); /* THIS IS THE PROBELM*/
 
 
@@ -130,7 +133,7 @@ Material* MeshLoader::loadMaterial(aiMaterial* material) {
 
 }
 
-void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, Material* engineMat, const std::string& type)
+void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, Material* engineMat)
 {	
 	for (unsigned int i = 0; i < material->GetTextureCount(textureType); i++) {
 		aiString str;
