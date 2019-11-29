@@ -8,8 +8,8 @@ struct Material {
 	glm::vec3 diffuseCol;
 	glm::vec3 specCol;
 
-	std::vector<std::pair<std::string, std::string>> textures; //Name --- type
-	bool hasBoundTextures = false; //Set this only to true in the materialmap
+	std::vector<GLuint> textures; //Just check to see if this size > 0, if it is then we have bound textures
+	
 };
 
 
@@ -21,16 +21,17 @@ public:
 	void cleanUp();
 
 	//Assign a name to the material 
-	void insertMat(const std::string& name, Material mat);
-	const Material& getMaterial(const std::string& name);
+	Material* insertMat(const std::string& name, Material* mat);
+	Material* getMaterial(const std::string& name);
 	void remove(const std::string& name);
+	bool existsWithName(const std::string& name);
+	
 
 private:
 	MaterialMap();
 	~MaterialMap();
-	bool existsWithName(const std::string& name);
 	static MaterialMap* m_materialMap;
-	std::map<std::string, Material> m_materials;
+	std::map<std::string, Material*> m_materials;
 };
 
 

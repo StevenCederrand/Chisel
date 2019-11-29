@@ -235,8 +235,14 @@ void Shader::setName(std::string name)
 void Shader::setMaterial(const Material& mat)
 {
 	setVec3("DiffuseCol", mat.diffuseCol);
+}
 
-
+void Shader::setMaterial(Material* mat)
+{
+	if (mat == nullptr) {
+		return;
+	}
+	setVec3("DiffuseCol", mat->diffuseCol);
 }
 
 std::string Shader::getName() const

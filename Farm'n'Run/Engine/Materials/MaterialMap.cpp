@@ -20,11 +20,17 @@ MaterialMap* MaterialMap::getInstance()
 
 void MaterialMap::destroy()
 {
+	cleanUp();
 	delete m_materialMap;
 }
 
 void MaterialMap::cleanUp()
 {
+	std::map<std::string, Material*>::iterator it;
+	for (it = m_materials.begin(); it != m_materials.end(); it++) {
+		delete it->second;
+	}
+	m_materials.clear();
 }
 
 bool MaterialMap::existsWithName(const std::string& name) {
@@ -36,24 +42,24 @@ bool MaterialMap::existsWithName(const std::string& name) {
 	return false;
 }
 
-void MaterialMap::insertMat(const std::string& name, Material mat)
+Material* MaterialMap::insertMat(const std::string& name, Material* mat)
 {
 	//If the material exists
 	if (existsWithName(name)) {
-		return;
+		return m_materials[name];
 	}
 
 	//If we have enough information to bind textures	
 	m_materials[name] = mat;
-	m_materials[name].hasBoundTextures = true; //we state that the texture that we have in memory are bound
+	return mat;
 }
 
-const Material& MaterialMap::getMaterial(const std::string& name)
+Material* MaterialMap::getMaterial(const std::string& name)
 {
 	if (existsWithName(name)) {
 		return m_materials[name];
 	}
-	return Material();
+	return nullptr;
 }
 
 void MaterialMap::remove(const std::string& name)
@@ -61,14 +67,9 @@ void MaterialMap::remove(const std::string& name)
 	if (!existsWithName(name)) {
 		return;
 	}
-
-	std::map<std::string, Material>::iterator it;
-	it = m_materials.find(name);
-	m_materials.erase(it);
-
-	if (it->second.hasBoundTextures) {
-		for (int i = 0; i < it->second.textures.size(); i++) {
-			//m_textureMap->removeTexture(it->second.textures.at(i).first);
-		}
+	
+	if (m_materials.find(name) != m_materials.end()) {
+		delete m_materials[name];
+		m_materials.erase(name);
 	}
 }

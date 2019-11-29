@@ -82,11 +82,11 @@ void Renderer::render()
 
 		for (int i = 0; i < m_staticObjects.size(); i++) {
 			shader->setMat4("modelMatrix", m_staticObjects.at(i)->getTransform().matrix);
-
 			for (int j = 0; j < m_staticObjects.at(i)->getMesh().size(); j++) {
 
-				std::string matName = m_staticObjects.at(i)->getMesh().at(j)->getMaterialName();
-				shader->setMaterial(MaterialMap::getInstance()->getMaterial(matName));
+				//Optimze this by having the mesh hold a pointer to it's material/s
+				Material* mat = m_staticObjects.at(i)->getMesh().at(j)->getMaterialAt(0);
+				shader->setMaterial(mat);
 
 				glBindVertexArray(m_staticObjects.at(i)->getMesh().at(j)->getBuffers().m_VAO);
 				glDrawElements(GL_TRIANGLES, m_staticObjects.at(i)->getMesh().at(j)->getNrOfIndices(), GL_UNSIGNED_INT, NULL);
@@ -97,13 +97,15 @@ void Renderer::render()
 
 	/*If the setting for using a skybox is enabled*/
 #if USING_SKYBOX 
+	
 	glDepthFunc(GL_LEQUAL);
 	glDepthMask(false);
 	shader = m_shaderMap->useByName(SHADER_ID::SKYBOX);
 	shader->setMat4("prjMatrix", m_camera->getProjectionMatrix());
 	shader->setMat4("viewMatrix", glm::mat4(glm::mat3(m_camera->getViewMatrix()))); //Remove all use of the final row and column
-
+	
 	glBindVertexArray(m_skybox->getSkyboxData().m_vao);
+	
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox->getSkyboxData().m_textureID);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glDepthMask(true);

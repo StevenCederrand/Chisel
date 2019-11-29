@@ -10,7 +10,7 @@ MeshLoader::~MeshLoader() {
 std::vector<Mesh*> MeshLoader::interpretMesh(std::string name)
 {
 	Assimp::Importer importer;
-	
+	m_textureMap = TextureMap::getInstance();
 	const aiScene* scene = importer.ReadFile(MESH_PATH + name, aiProcess_Triangulate | aiProcess_FlipUVs);
 	std::vector<Mesh*> meshes;
 
@@ -84,86 +84,67 @@ Mesh* MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene)
 		}
 	}
 
-	std::string matName = "";
+	Material* mat = nullptr;
 	if (mesh->mMaterialIndex >= 0) {
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-		matName = setupMaterial(material);
+		mat = loadMaterial(material);
 	}
 	
 
-	Mesh* l_mesh = new Mesh(vertices, indices, matName);
+	Mesh* l_mesh = new Mesh(vertices, indices);
+	l_mesh->addMaterial(mat);
 	return l_mesh;
 }
 
-std::string MeshLoader::setupMaterial(aiMaterial* material) {
-	
-	Material mat;
-	std::vector<std::string> texturePaths;
-	aiColor3D col;
+Material* MeshLoader::loadMaterial(aiMaterial* material) {
+
 	aiString name;
 
-	
+
 	material->Get(AI_MATKEY_NAME, name);
+
+	logInfo(name.C_Str());
+
+
+	if (MaterialMap::getInstance()->existsWithName(name.C_Str())) {
+		return MaterialMap::getInstance()->getMaterial(name.C_Str());
+	}
+	else {
+		Material* mat = new Material(); //This could well be the problem
+		aiColor3D col;
+		material->Get(AI_MATKEY_COLOR_DIFFUSE, col);
+		mat->diffuseCol = glm::vec3(col.r, col.g, col.b);
+
+		material->Get(AI_MATKEY_COLOR_AMBIENT, col);
+		mat->ambientCol = glm::vec3(col.r, col.g, col.b);
+
+		material->Get(AI_MATKEY_COLOR_SPECULAR, col);
+		mat->specCol = glm::vec3(col.r, col.g, col.b);
+
 	
-	material->Get(AI_MATKEY_COLOR_DIFFUSE, col);
-	mat.diffuseCol = glm::vec3(col.r, col.g, col.b);
+		MaterialMap::getInstance()->insertMat(name.C_Str(), mat); /* THIS IS THE PROBELM*/
 
-	material->Get(AI_MATKEY_COLOR_AMBIENT, col);
-	mat.ambientCol = glm::vec3(col.r, col.g, col.b);
 
-	material->Get(AI_MATKEY_COLOR_SPECULAR, col);
-	mat.specCol = glm::vec3(col.r, col.g, col.b);
-	
- 	loadTextures(material, aiTextureType_DIFFUSE, mat, "Diffuse");
-		
-
-	MaterialMap::getInstance()->insertMat(name.C_Str(), mat);
-	return name.C_Str();
+		return mat;
+	}
 
 }
 
-void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, Material& engineMat, const std::string& type)
-{
-
-	std::pair<std::string, std::string> matTexture; //Name of the texture and the type of texture that it is
-	
+void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, Material* engineMat, const std::string& type)
+{	
 	for (unsigned int i = 0; i < material->GetTextureCount(textureType); i++) {
 		aiString str;
 		std::string rString;
-		material->GetTexture(textureType, i, &str); //Get the path for the texture. 
+		std::string name;
+		material->GetTexture(textureType, i, &str); //Get the path for the texture
 		
-
-
 		rString = str.C_Str();
 
 		//std::cout << rString << std::endl;
-		matTexture.first = rString.substr(rString.find_last_of("\\/") + 1, rString.length());
-		matTexture.second = type;  //Set the type for every texture
-
-		//logInfo(matTexture.first);
-		//When we have determined the texture path, and the texture type.. 
-		//Insert it into the texture map
-		TextureMap::getInstance()->insert(matTexture.first, TEXTURE_PATH + rString);
+		name = rString.substr(rString.find_last_of("\\/") + 1, rString.length());
 
 		//Then insert the pair into the material 
-		//engineMat.textures.push_back(matTexture);
+		engineMat->textures.push_back(m_textureMap->insert(name, TEXTURE_PATH + rString));
 	}
 }
 
-/*
-std::vector<Texture> MeshLoader::loadTextures(aiMaterial* material, aiTextureType, std::string type)
-{
-	
-	std::vector<Texture> textures;
-	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
-	{
-		aiString str;
-		mat->GetTexture(type, i, &str);
-		Texture texture;
-		texture.id = TextureFromFile(str.C_Str(), directory);
-		texture.type = typeName;
-		texture.path = str;
-		textures.push_back(texture);
-	}
-	return textures;	
-}*/

@@ -14,9 +14,10 @@ public:
 	void processNode(aiNode* node, const aiScene* scene, std::vector<Mesh*>& mesh);
 
 	//Returns the materialName
-	std::string setupMaterial(aiMaterial* material);
-	void loadTextures(aiMaterial* material, aiTextureType textureType, Material& engineMat, const std::string& type);
+	Material* loadMaterial(aiMaterial* material);
+	void loadTextures(aiMaterial* material, aiTextureType textureType, Material* engineMat, const std::string& type);
 
+	TextureMap* m_textureMap;
 };
 
 #endif // !_MESHLOADER_h

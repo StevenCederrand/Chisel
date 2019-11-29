@@ -1,6 +1,7 @@
 #ifndef _MESH_h
 #define _MESH_h
 #include <PCH/pch.h>
+#include <Engine/Materials/MaterialMap.h>
 
 
 struct Vertex {
@@ -21,13 +22,19 @@ struct RenderBuffers {
 class Mesh {
 public:
 
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::string materialName);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 	~Mesh();
+
+	//Adds the material to the list of materials
+	void addMaterial(Material* mat);
+
 	const RenderBuffers& getBuffers() const;
 
 	int getNrOfIndices();
 	const std::string& getMaterialName() const;
+	Material* getMaterialAt(const int& i);
 
+	const std::vector<Material*>& getMaterials() const;
 
 private:
 	RenderBuffers m_renderBuffers;
@@ -35,6 +42,8 @@ private:
 	std::vector<Vertex> m_vertices;
 	std::vector<unsigned int> m_indices;
 	std::string m_materialName;
+	std::vector<Material*> m_materials; 
+
 	void setupMesh();
 };
 

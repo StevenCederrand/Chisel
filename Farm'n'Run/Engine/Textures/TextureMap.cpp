@@ -14,9 +14,9 @@ TextureMap::~TextureMap()
 
 }
 
-
-
 void TextureMap::destroy() {
+	removeAll();
+	m_textures.clear();
 	delete m_textureMap;
 }
 
@@ -28,14 +28,15 @@ TextureMap* TextureMap::getInstance()
 	}
 	return m_textureMap;
 }
-
-void TextureMap::insert(const std::string& textureName, const std::string& textureFile)
+//Returns the textureID
+GLuint TextureMap::insert(const std::string& textureName, const std::string& textureFile)
 {
 	//We take in our texture name, and its filepath
 	long long textureHash = hash(textureName);
 	
 	if (m_textures.find(textureHash) != m_textures.end()) {	//If the texture does exist
 		m_textures[textureHash].refCount += 1;		
+		return m_textures[textureHash].textureID;
 	}
 	else {
 		/* CREATE THE TEXTURE */
@@ -73,12 +74,15 @@ void TextureMap::insert(const std::string& textureName, const std::string& textu
 
 			//Assign the texture
 			m_textures[textureHash] = tex;
+			return tex.textureID;
 		}
 		else {
 			logWarning("Failed to read texture");
+			return -1;
 		}
 		stbi_image_free(textureData);
 	}
+	return -1;
 }
 
 long long TextureMap::hash(const std::string& title)
@@ -106,29 +110,25 @@ const GLuint& TextureMap::getTextureID(const std::string& name)
 	return 0;
 }
 
-void TextureMap::removeTexture(const std::string& name)
+void TextureMap::removeTexture(const long long& hash)
 {
-	//if the texture doesn't exist
-	//if (!textureExists(name)) {
-	//	return;
-	//}
-	//m_textures[name].binds--;
-	////If we deleted the only texture in use
-	//if (m_textures[name].binds <= 0) {
-	//	//Remove the texture entirely 
-	//	glDeleteTextures(1, &m_textures[name].textureID);
-	//}
+	if (m_textures.find(hash) != m_textures.end()) { //If the texture does exist
+		m_textures[hash].refCount--; //Remove a ref
+		
+		//Delete the texture
+		if (m_textures[hash].refCount <= 0) {
+			glDeleteTextures(1, &m_textures[hash].textureID);
+			m_textures.erase(hash);
+		}
+	}
 }
 
-void TextureMap::cleanUp()
-{
-	//std::map<std::string, TextureType>::iterator iter;
-
-	//for (iter = m_textures.begin(); iter != m_textures.end(); iter++) {
-	//	glDeleteTextures(1, &iter->second.textureID);
-	//}
-
-	//m_textures.clear();
+void TextureMap::removeAll() {
+	std::map<long long, Texture>::iterator it;
+	for (it = m_textures.begin(); it != m_textures.end(); it++)
+	{
+		glDeleteTextures(1, &it->second.textureID);
+	}
 }
 
 void TextureMap::dump()
@@ -138,14 +138,4 @@ void TextureMap::dump()
 	{
 		std::cout << it->second.textureID << " " << it->second.refCount << " " << it->second.textureHash << " \n";
 	}
-}
-
-
-bool TextureMap::textureExists(const std::string& name)
-{
-	//if (m_textures.find(name) != m_textures.end()) {
-	//	return true;
-	//}
-
-	return false;
 }

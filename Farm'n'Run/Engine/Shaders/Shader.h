@@ -22,6 +22,7 @@ public:
 	void setInt(std::string name, int num);
 	void setName(std::string name);
 	void setMaterial(const Material& mat);
+	void setMaterial(Material* mat);
 
 	bool getValid() const;
 	int getShaderID() const;

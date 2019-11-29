@@ -2,10 +2,9 @@
 #include "Mesh.h"
 
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::string materialName) {
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices) {
 	m_vertices = vertices;
 	m_indices = indices;
-	m_materialName = materialName;
 
 	setupMesh();
 }
@@ -14,6 +13,11 @@ Mesh::~Mesh() {
 	glDeleteVertexArrays(1, &m_renderBuffers.m_VAO);
 	glDeleteBuffers(1, &m_renderBuffers.m_IBO);
 	glDeleteBuffers(1, &m_renderBuffers.m_VBO);
+}
+
+void Mesh::addMaterial(Material* mat)
+{
+	m_materials.push_back(mat);
 }
 
 
@@ -30,6 +34,21 @@ int Mesh::getNrOfIndices()
 const std::string& Mesh::getMaterialName() const
 {
 	return m_materialName;
+}
+
+Material* Mesh::getMaterialAt(const int& i)
+{
+	if (i > m_materials.size() || i < 0) {
+		return nullptr;
+	}
+	else {
+		return m_materials[i];
+	}
+}
+
+const std::vector<Material*>& Mesh::getMaterials() const
+{
+	return m_materials;
 }
 
 void Mesh::setupMesh() {
