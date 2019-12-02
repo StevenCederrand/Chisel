@@ -32,10 +32,12 @@ TextureMap* TextureMap::getInstance()
 GLuint TextureMap::insert(const std::string& textureName, const std::string& textureFile)
 {
 	//We take in our texture name, and its filepath
-	long long textureHash = hash(textureName);
-	
+	std::string text = "Assets/Textures/Skybox/bk.jpg";
+	long long textureHash = hash(textureFile);
+
+
 	if (m_textures.find(textureHash) != m_textures.end()) {	//If the texture does exist
-		m_textures[textureHash].refCount += 1;		
+		m_textures[textureHash].refCount += 1;
 		return m_textures[textureHash].textureID;
 	}
 	else {
@@ -50,6 +52,7 @@ GLuint TextureMap::insert(const std::string& textureName, const std::string& tex
 			tex.textureHash = textureHash;
 
 			GLenum textureFormat;
+
 			if (nrOfComponents == 1) {
 				textureFormat = GL_RED;
 			}
@@ -59,17 +62,18 @@ GLuint TextureMap::insert(const std::string& textureName, const std::string& tex
 			else if (nrOfComponents == 4) {
 				textureFormat = GL_RGBA;
 			}
+
 			glGenTextures(1, &texture);
 			glBindTexture(GL_TEXTURE_2D, texture);
-
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 			glTexImage2D(GL_TEXTURE_2D, 0, textureFormat, width, height, 0, textureFormat, GL_UNSIGNED_BYTE, textureData);
 			glGenerateMipmap(GL_TEXTURE_2D);
-			
+
+
 			tex.textureID = texture;
 
 			//Assign the texture

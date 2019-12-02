@@ -74,14 +74,16 @@ void Renderer::render()
 		if (Input::isKeyPressed(GLFW_KEY_TAB) && !m_wireframe) {
 			m_wireframe = true;
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}
+		}	
 		else if(Input::isKeyPressed(GLFW_KEY_TAB) && m_wireframe){
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
 			m_wireframe = false;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
 		}
 
 		for (int i = 0; i < m_staticObjects.size(); i++) {
+
 			shader->setMat4("modelMatrix", m_staticObjects.at(i)->getTransform().matrix);
+
 			for (int j = 0; j < m_staticObjects.at(i)->getMesh().size(); j++) {
 
 				//Optimze this by having the mesh hold a pointer to it's material/s
@@ -90,12 +92,13 @@ void Renderer::render()
 
 				glBindVertexArray(m_staticObjects.at(i)->getMesh().at(j)->getBuffers().m_VAO);
 				glDrawElements(GL_TRIANGLES, m_staticObjects.at(i)->getMesh().at(j)->getNrOfIndices(), GL_UNSIGNED_INT, NULL);
+				glBindTexture(GL_TEXTURE_2D, 0);
 				glBindVertexArray(0);
 			}
 		}
 	}
 
-	/*If the setting for using a skybox is enabled*/
+	/* If the setting for using a skybox is enabled */
 #if USING_SKYBOX 
 	glDepthFunc(GL_LEQUAL);
 	glDepthMask(false);

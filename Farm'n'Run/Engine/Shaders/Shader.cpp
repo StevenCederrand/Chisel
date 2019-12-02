@@ -242,10 +242,11 @@ void Shader::setMaterial(Material* mat)
 	if (mat == nullptr) {
 		return;
 	}
-	setVec3("AmbientCol", mat->ambientCol);
-	//setVec3("DiffuseCol", mat->diffuseCol);
+
+	//setVec3("AmbientCol", mat->ambientCol);
+	setVec3("DiffuseCol", mat->diffuseCol);
 	if (mat->textures.size() > 0) {
-		setInt("diffuseTexture", mat->textures.at(0));
+		glBindTexture(GL_TEXTURE_2D, mat->textures.at(0));
 	}
 }
 

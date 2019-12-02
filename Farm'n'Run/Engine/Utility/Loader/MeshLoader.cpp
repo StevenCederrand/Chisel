@@ -11,7 +11,11 @@ std::vector<Mesh*> MeshLoader::interpretMesh(std::string name)
 {
 	Assimp::Importer importer;
 	m_textureMap = TextureMap::getInstance();
-	const aiScene* scene = importer.ReadFile(MESH_PATH + name, aiProcess_Triangulate | aiProcess_FlipUVs);
+
+	unsigned int importOptions =  aiProcess_GenSmoothNormals
+		| aiProcess_JoinIdenticalVertices;
+
+	const aiScene* scene = importer.ReadFile(MESH_PATH + name, importOptions);
 	std::vector<Mesh*> meshes;
 
 	//If scene fails
@@ -66,9 +70,10 @@ Mesh* MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene)
 		vert.normal = vec3Data;
 
 		if (hasTextureCoordinate) {
-			vec3Data.x = mesh->mTextureCoords[0][i].x;
-			vec3Data.y = mesh->mTextureCoords[0][i].y;
-			vert.uv = vec3Data;
+			glm::vec2 vec2Data;
+			vec2Data.x = mesh->mTextureCoords[0][i].x;
+			vec2Data.y = mesh->mTextureCoords[0][i].y;
+			vert.uv = vec2Data;
 		}
 		else {
 			vert.uv = glm::vec2(0, 0);
@@ -125,12 +130,10 @@ Material* MeshLoader::loadMaterial(aiMaterial* material) {
 	
 		loadTextures(material, aiTextureType::aiTextureType_DIFFUSE, mat);
 
-		MaterialMap::getInstance()->insertMat(name.C_Str(), mat); /* THIS IS THE PROBELM*/
-
-
+		MaterialMap::getInstance()->insertMat(name.C_Str(), mat); 
+		
 		return mat;
 	}
-
 }
 
 void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, Material* engineMat)
@@ -142,9 +145,9 @@ void MeshLoader::loadTextures(aiMaterial* material, aiTextureType textureType, M
 		material->GetTexture(textureType, i, &str); //Get the path for the texture
 		
 		rString = str.C_Str();
-
+		engineMat->name = rString;
 		//std::cout << rString << std::endl;
-		name = rString.substr(rString.find_last_of("\\/") + 1, rString.length());
+		name = rString.substr(rString.find_last_of("\\/"), rString.length());
 
 		//Then insert the pair into the material 
 		engineMat->textures.push_back(m_textureMap->insert(name, TEXTURE_PATH + rString));
