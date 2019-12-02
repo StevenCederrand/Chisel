@@ -12,8 +12,7 @@ std::vector<Mesh*> MeshLoader::interpretMesh(std::string name)
 	Assimp::Importer importer;
 	m_textureMap = TextureMap::getInstance();
 
-	unsigned int importOptions =  aiProcess_GenSmoothNormals
-		| aiProcess_JoinIdenticalVertices;
+	unsigned int importOptions =  aiProcess_GenSmoothNormals;
 
 	const aiScene* scene = importer.ReadFile(MESH_PATH + name, importOptions);
 	std::vector<Mesh*> meshes;

@@ -40,7 +40,7 @@ GLuint TextureMap::insert(const std::string& textureName, const std::string& tex
 		m_textures[textureHash].refCount += 1;
 		return m_textures[textureHash].textureID;
 	}
-	else {
+	else {	
 		/* CREATE THE TEXTURE */
 		GLuint texture;
 		int width, height, nrOfComponents;

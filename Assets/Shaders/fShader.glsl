@@ -17,12 +17,16 @@ float ambStr = 0.1f;
 
 void main() {
     vec3 col = vec3(0);
-    vec3 colTex = texture(diffuseTexture, f_uv).rgb;
+    vec4 colTex = texture(diffuseTexture, f_uv);
 
     vec3 normal = normalize(f_normal);
     vec3 lightDir = normalize(vec3(f_position.xyz - lightDirection));
     float diff = max(dot(normal, lightDir), 0.0f);
 
-    col = (DiffuseCol * diff) + colTex * diff;
+    if(colTex.a == 0) {
+        discard;
+    }
+
+    col = (DiffuseCol * diff) + colTex.rgb * diff;
     color = vec4(col, 1);
 }
