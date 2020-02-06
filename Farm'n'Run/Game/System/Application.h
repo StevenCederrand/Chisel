@@ -11,15 +11,14 @@ public:
 	~Application();
 
 	bool init();
-
 	void update();
 private:
+	void generalHandle();
+private:
 	Camera* m_camera;
-	Window* m_window;
+
 	std::vector<GameObject*> m_GO;
 	float xRotation = 4.6f;
 };
-
-
 
 #endif

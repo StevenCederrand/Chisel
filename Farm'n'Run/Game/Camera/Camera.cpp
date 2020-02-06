@@ -23,7 +23,9 @@ Camera::~Camera()
 void Camera::update(float deltaTime) {
 	viewMatrix = glm::lookAt(m_cameraPos, m_cameraPos + m_cameraFace, m_worldUp);
 	keys(deltaTime);
-	mouseCallback();
+	if (m_freeRoam) {
+		mouseCallback();
+	}
 }
 
 void Camera::mouseCallback() {
@@ -57,6 +59,22 @@ const glm::mat4& Camera::getProjectionMatrix() const
 const glm::mat4& Camera::getViewMatrix() const
 {
 	return viewMatrix;
+}
+
+const glm::vec3& Camera::getPosition() const
+{
+	return m_cameraPos;
+}
+
+const bool& Camera::getLock() const
+{
+	return m_freeRoam;
+}
+
+bool Camera::lockCamera()
+{
+	m_freeRoam = !m_freeRoam;
+	return m_freeRoam;
 }
 
 void Camera::mouseControls(float xOffset, float yOffset, bool pitchLimit) {

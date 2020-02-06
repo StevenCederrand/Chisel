@@ -2,7 +2,9 @@
 #define _CHISEL_h
 #include <PCH/pch.h>
 #include <Engine/Rendering/Renderer.h>
-#include <Game/Camera/Camera.h> //Change this!!!!!
+#include <Engine/Window/Window.h>
+#include <Engine/UI/UI.h>
+#include <Game/Camera/Camera.h> 
 
 class Chisel {
 public:
@@ -14,12 +16,22 @@ public:
 	void setCamera(Camera* camera);
 	
 	void destroy();
+	void update();
 	void render();
+	
+	bool isActive();
+	void close();
+
+	void toggleFreeRoam();
+	void toggleWireframe();
 
 private:
 	static Chisel* m_chisel;
 	ShaderMap* m_shaderMap;
-
+	Renderer* m_renderer;
+	Window* m_window;
+	Camera* m_camera;
+	UI* m_ui;
 };
 
 

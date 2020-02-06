@@ -15,6 +15,7 @@ out vec2 f_uv;
 void main() {
     f_position = modelMatrix * vec4(position, 1);
     gl_Position = prjMatrix * viewMatrix * f_position;
-    f_uv = -1 * uv;
-    f_normal = mat3(transpose(inverse(modelMatrix))) * normal;
+    f_uv = uv;
+    f_normal = normalize(mat3(transpose(inverse(modelMatrix))) * normal);
+
 }

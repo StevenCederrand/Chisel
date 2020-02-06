@@ -1,4 +1,4 @@
-	#include <PCH/pch.h>
+#include <PCH/pch.h>
 #include "Application.h"
 
 //DeltaTime 
@@ -22,7 +22,7 @@ namespace DeltaTime {
 
 Application::Application()
 {
-
+	
 }
 
 Application::~Application()
@@ -32,21 +32,19 @@ Application::~Application()
 		delete m_GO[i];
 	}
 	delete m_camera;
-	delete m_window;
 	Chisel::GetChisel()->destroy();
 }
 
 bool Application::init()
 {
-	m_window = new Window(1280 * 2, 720 * 2, "Chisel -- Engine");
 
-	return m_window->isActive();
+	m_camera = new Camera();
+	return true; //Return an init of chisel
 }
 
 void Application::update()
 {
 	//Create a camera and 
-	m_camera = new Camera();
 	
 	Chisel::GetChisel()->setCamera(m_camera);
 	//Create and place the objects into a vector
@@ -54,33 +52,34 @@ void Application::update()
 	m_GO[0]->setScale(glm::vec3(0.01f));
 
 	//While the window is active
-	while (m_window->isActive()) {
+	while (Chisel::GetChisel()->isActive()) {
 		DeltaTime::startDeltaTime();
 
-		m_window->clear();
-		//Close the window
-		if (Input::isKeyPressed(GLFW_KEY_ESCAPE)) {
-			m_window->closeWindow();
-		}
-
-		if (Input::isKeyHeldDown(GLFW_KEY_I)) {
-			xRotation += 0.1f;
-			m_GO[0]->setRotation(glm::quat(glm::vec3(xRotation, 0, 0)));
-		}
-		else if (Input::isKeyHeldDown(GLFW_KEY_K)) {
-			xRotation -= 0.1f;
-			m_GO[0]->setRotation(glm::quat(glm::vec3(xRotation, 0, 0)));
-		}
-
-		if (Input::isKeyPressed(GLFW_KEY_F1)) {
-			ShaderMap::getInstance()->reload();
-		}
-		
+		Chisel::GetChisel()->update();
 		m_camera->update(DeltaTime::deltaTime);
-		
-		Chisel::GetChisel()->render();
+		generalHandle();
 
+		Chisel::GetChisel()->render();
+		
 		DeltaTime::endDeltaTime();
-		m_window->swapBuffers();
+	}
+}
+
+void Application::generalHandle() {
+	if (Input::isKeyPressed(GLFW_KEY_L)) {
+		Chisel::GetChisel()->toggleFreeRoam();
+	}
+
+	if (Input::isKeyPressed(GLFW_KEY_TAB)) {
+		Chisel::GetChisel()->toggleWireframe();
+	}
+
+	//Close the window
+	if (Input::isKeyPressed(GLFW_KEY_ESCAPE)) {
+		Chisel::GetChisel()->close();
+	}
+
+	if (Input::isKeyPressed(GLFW_KEY_F1)) {
+		ShaderMap::getInstance()->reload();
 	}
 }

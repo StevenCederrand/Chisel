@@ -5,6 +5,10 @@ Renderer* Renderer::m_instance;
 
 Renderer::Renderer() {
 	m_shaderMap = ShaderMap::getInstance();
+	//Setup a basic directional light
+	m_directionalLight.color = glm::vec3(1, 1, 1);
+	m_directionalLight.direction = glm::vec3(0, -1, 0);
+
 #if USING_SKYBOX
 	initSkybox();
 #endif
@@ -35,6 +39,7 @@ Renderer* Renderer::getInstance() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_MULTISAMPLE);
+
 		
 	}
 	return m_instance;
@@ -58,6 +63,18 @@ void Renderer::destroy() {
 	delete m_instance;
 }
 
+void Renderer::update() {
+	
+	//The renderer should be able to place out pointlights 
+	if (Input::isKeyPressed(GLFW_KEY_SPACE)) {
+		//Place a pointlight and hand it over so that we can render using it
+		Pointlight pl;
+		pl.position = glm::vec4(m_camera->getPosition(), 5.0f);		
+		m_pointlights.push_back(pl);
+	}
+
+}
+
 void Renderer::render()
 {
 	Shader* shader;
@@ -69,22 +86,25 @@ void Renderer::render()
 		shader = m_shaderMap->useByName(SHADER_ID::FORWARD);
 
 		bindMatrixes(shader);
-
+		
 		//If tab and wireframe off
-		if (Input::isKeyPressed(GLFW_KEY_TAB) && !m_wireframe) {
-			m_wireframe = true;
+		if (m_wireframe) {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}	
-		else if(Input::isKeyPressed(GLFW_KEY_TAB) && m_wireframe){
-			m_wireframe = false;
+		}
+		else{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
 		}
 
-		for (int i = 0; i < m_staticObjects.size(); i++) {
+		for (size_t i = 0; i < m_pointlights.size(); i++)
+		{
+			//shader->setVec4("")
+		}
+
+		for (size_t i = 0; i < m_staticObjects.size(); i++) {
 
 			shader->setMat4("modelMatrix", m_staticObjects.at(i)->getTransform().matrix);
 
-			for (int j = 0; j < m_staticObjects.at(i)->getMesh().size(); j++) {
+			for (size_t j = 0; j < m_staticObjects.at(i)->getMesh().size(); j++) {
 
 				//Optimze this by having the mesh hold a pointer to it's material/s
 				Material* mat = m_staticObjects.at(i)->getMesh().at(j)->getMaterialAt(0);
@@ -114,4 +134,20 @@ void Renderer::render()
 	glDepthFunc(GL_LESS);
 #endif
 
+}
+
+DirectionalLight& Renderer::getDirectionalLight()
+{
+	return m_directionalLight;
+}
+
+bool Renderer::setWireframe()
+{
+	m_wireframe = !m_wireframe;
+	return m_wireframe;
+}
+
+bool Renderer::getWireframe()
+{
+	return m_wireframe;
 }

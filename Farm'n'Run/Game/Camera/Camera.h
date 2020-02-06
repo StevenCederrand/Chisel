@@ -14,9 +14,13 @@ public:
 	void update(float deltaTime);
 	void keys(float deltaTime);
 	void mouseCallback();
+	
 	const glm::mat4& getProjectionMatrix() const;
 	const glm::mat4& getViewMatrix() const;
-
+	const glm::vec3& getPosition() const;
+	const bool& getLock() const;
+	bool lockCamera(); //Call this to edit lock value
+	
 private:
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
@@ -39,6 +43,7 @@ private:
 	double m_posX;
 	double m_posY;
 	bool m_start = true;
+	bool m_freeRoam = true;
 };
 
 
