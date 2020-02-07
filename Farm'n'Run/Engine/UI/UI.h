@@ -14,5 +14,6 @@ public:
 	bool m_cameraToggle;
 	bool m_wireFrameToggle;
 
-	float dirLight[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float dirLight[3] = { -.03f, -1.0f, 0.8f };
+	float dirLightColor[3] = { 1.0f, 1.0f, 1.0f };
 };

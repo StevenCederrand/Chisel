@@ -32,6 +32,9 @@ private:
 	Window* m_window;
 	Camera* m_camera;
 	UI* m_ui;
+
+	DirectionalLight m_directionalLight;
+
 };
 
 

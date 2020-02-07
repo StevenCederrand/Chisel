@@ -95,6 +95,8 @@ void Renderer::render()
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
 		}
 
+		shader->bindDirectionalLight();
+
 		for (size_t i = 0; i < m_pointlights.size(); i++)
 		{
 			//shader->setVec4("")

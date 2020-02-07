@@ -66,7 +66,7 @@ void Application::update()
 }
 
 void Application::generalHandle() {
-	if (Input::isKeyPressed(GLFW_KEY_L)) {
+	if (Input::isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
 		Chisel::GetChisel()->toggleFreeRoam();
 	}
 

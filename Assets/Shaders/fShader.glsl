@@ -1,8 +1,6 @@
 #version 430
 #define MAX_LIGHTS 64
 
-vec3 lightDirection = vec3(-20, -20.0, 50);
-
 struct DirectionalLight {
     vec3 direction;
     vec3 color;
@@ -23,6 +21,8 @@ uniform vec3 AmbientCol;    //Material ambient colour
 uniform vec3 DiffuseCol;    //Material diffuse colour
 uniform int Lightcount;     //The number of point lights in the scene
 uniform Pointlight Pointlights[MAX_LIGHTS];
+
+uniform DirectionalLight directionalLight;
 
 out vec4 color;
 
@@ -50,15 +50,16 @@ void main() {
 }
 
 vec3 calculateDirlight(vec4 colTex) {
-    vec3 lightDir = normalize(vec3(f_position.xyz - lightDirection));
+
+    vec3 lightDir = normalize(-directionalLight.direction);
     float diff = max(dot(f_normal, lightDir), 0.0f);
-    return colTex.rgb * diff;
+    return colTex.rgb * diff * directionalLight.color;
 }
 
 vec3 calculateDirlight(vec3 colour){
-    vec3 lightDir = normalize(vec3(f_position.xyz - lightDirection));
+    vec3 lightDir = normalize(-directionalLight.direction);
     float diff = max(dot(f_normal, lightDir), 0.0f);
-    return colour * diff;
+    return colour * diff * directionalLight.color;
 }
 
 

@@ -39,18 +39,27 @@ void UI::render()
 
 	//Control Window
 	//Requires Formatting 
-	ImGui::Begin("Welcome To Chisel!");
-	ImGui::SetWindowSize(ImVec2(400, 200));
-	ImGui::Text("___Controls___");
-	ImGui::Text("QUIT	( KEY : Escape )");
-	ImGui::Text("Shader Hot Reload	( KEY : F1 )");
-	ImGui::Checkbox("Wireframe mode	( KEY : TAB )", &m_wireFrameToggle);
-	ImGui::Checkbox(" : FREE ROAM	( KEY : L )", &m_cameraToggle);
+	{
+		ImGui::Begin("Welcome To Chisel!");
+		ImGui::SetWindowPos(ImVec2(0, 0));
+		ImGui::SetWindowSize(ImVec2(400, 200));
+		ImGui::Text("___Controls___");
+		ImGui::Text("QUIT	( KEY : Escape )");
+		ImGui::Text("Shader Hot Reload	( KEY : F1 )");
+		ImGui::Checkbox("Wireframe mode	( KEY : TAB )", &m_wireFrameToggle);
+		ImGui::Checkbox(" : FREE ROAM	( KEY : CTRL )", &m_cameraToggle);
+		ImGui::End();
+	}
+	//World Settings
+	{
+		ImGui::Begin("World Settings");
+		ImGui::SetWindowPos(ImVec2(0, 250));
+		ImGui::SliderFloat3("Direction", dirLight, -1.0f, 1.0f);
+		ImGui::ColorEdit3("Color", dirLightColor);
 
-	ImGui::End();
+		ImGui::End();
+	}
 
-	//ImGui::Begin("World Settings");
-	//ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

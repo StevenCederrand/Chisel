@@ -250,6 +250,17 @@ void Shader::setMaterial(Material* mat)
 	}
 }
 
+void Shader::direcionalLightData(const DirectionalLight& directionalLight)
+{
+	m_directionalLight = directionalLight;
+}
+
+void Shader::bindDirectionalLight()
+{
+	setVec3("directionalLight.direction", m_directionalLight.direction);
+	setVec3("directionalLight.color", m_directionalLight.color);
+}
+
 std::string Shader::getName() const
 {
 	return m_name;

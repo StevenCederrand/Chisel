@@ -23,6 +23,10 @@ public:
 	void setName(std::string name);
 	void setMaterial(const Material& mat);
 	void setMaterial(Material* mat);
+	
+	//Directional Light handles
+	void direcionalLightData(const DirectionalLight& directionalLight);
+	void bindDirectionalLight();
 
 	bool getValid() const;
 	int getShaderID() const;
@@ -30,20 +34,18 @@ public:
 	std::vector<std::string> getShaderNames() const;
 	GLint getUniformLocation(std::string locationName);
 
-
 	void clearIDs();
-
 
 	Shader& operator=(const Shader& other);
 
 private:
-
 	void shaderSetup(std::string shaderName, unsigned int& shader);
 	bool m_valid;
 	std::string m_name;
 	int m_shaderProg;
 	std::map<std::string, GLint> m_IDMap;
 	std::vector<std::string> m_shaderNames; //We need to save the name of the shaders. 
+	DirectionalLight m_directionalLight;
 };
 
 #endif

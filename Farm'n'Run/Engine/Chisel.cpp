@@ -7,15 +7,21 @@ Chisel* Chisel::m_chisel = 0;
 Chisel::Chisel()
 {
 	m_window = new Window(1280 * 2, 720 * 2, "Chisel -- Engine");
+	//ShaderMap setup
+	{
+		m_shaderMap = ShaderMap::getInstance();
+		m_shaderMap->createShader(SHADER_ID::FORWARD, "vShader.glsl", "fShader.glsl");
+		m_shaderMap->createShader(SHADER_ID::SKYBOX, "SkyboxVS.glsl", "SkyboxFS.glsl");
+		m_directionalLight.direction = glm::vec3(-.03f, -1.0f, 0.8f);
+		m_directionalLight.color = glm::vec3(1);
+		ShaderMap::getInstance()->getShader(SHADER_ID::FORWARD)->direcionalLightData(m_directionalLight);
+	}
 
-	m_shaderMap = ShaderMap::getInstance();
-	m_shaderMap->createShader(SHADER_ID::FORWARD, "vShader.glsl", "fShader.glsl");
-	m_shaderMap->createShader(SHADER_ID::SKYBOX, "SkyboxVS.glsl", "SkyboxFS.glsl");
+
 	m_renderer = Renderer::getInstance();
 
-#pragma region UI
 	m_ui = new UI(m_window->getWindow());
-#pragma endregion
+	
 }
 
 Chisel* Chisel::GetChisel()
@@ -54,6 +60,25 @@ void Chisel::update()
 	if (m_renderer->getWireframe() != m_ui->m_wireFrameToggle) {
 		toggleWireframe();
 	}
+
+	//Directional Light
+	{
+		//Assign directional value
+		if (m_ui->dirLight[0] != m_directionalLight.direction.x || m_ui->dirLight[1] != m_directionalLight.direction.y ||
+			m_ui->dirLight[2] != m_directionalLight.direction.z) {
+			//Assign the direction
+			m_directionalLight.direction = glm::vec3(m_ui->dirLight[0], m_ui->dirLight[1], m_ui->dirLight[2]);
+			ShaderMap::getInstance()->getShader(SHADER_ID::FORWARD)->direcionalLightData(m_directionalLight);
+		}
+		//Assign color value
+		if (m_ui->dirLightColor[0] != m_directionalLight.direction.x || m_ui->dirLightColor[1] != m_directionalLight.color.y ||
+			m_ui->dirLightColor[2] != m_directionalLight.direction.z) {
+			//Assign the color
+			m_directionalLight.color = glm::vec3(m_ui->dirLightColor[0], m_ui->dirLightColor[1], m_ui->dirLightColor[2]);
+			ShaderMap::getInstance()->getShader(SHADER_ID::FORWARD)->direcionalLightData(m_directionalLight);
+		}
+	}
+
 }
 
 
