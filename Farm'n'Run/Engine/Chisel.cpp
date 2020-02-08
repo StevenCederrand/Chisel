@@ -12,6 +12,7 @@ Chisel::Chisel()
 		m_shaderMap = ShaderMap::getInstance();
 		m_shaderMap->createShader(SHADER_ID::FORWARD, "vShader.glsl", "fShader.glsl");
 		m_shaderMap->createShader(SHADER_ID::SKYBOX, "SkyboxVS.glsl", "SkyboxFS.glsl");
+		m_shaderMap->createShader(SHADER_ID::WIREFRAME, "vShader.glsl", "wireFrame.glsl");
 		m_directionalLight.direction = glm::vec3(-.03f, -1.0f, 0.8f);
 		m_directionalLight.color = glm::vec3(1);
 		ShaderMap::getInstance()->getShader(SHADER_ID::FORWARD)->direcionalLightData(m_directionalLight);
@@ -121,6 +122,11 @@ void Chisel::toggleFreeRoam()
 void Chisel::toggleWireframe()
 {
 	m_ui->m_wireFrameToggle = m_renderer->setWireframe();
+}
+
+void Chisel::setDuplicateCount(const int& numOfDuplicates)
+{
+	m_ui->m_numberOfDuplicateTextures = numOfDuplicates;
 }
 
 void Chisel::calculateFPS(const float& dt) {

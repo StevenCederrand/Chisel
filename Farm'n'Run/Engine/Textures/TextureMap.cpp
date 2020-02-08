@@ -31,13 +31,11 @@ TextureMap* TextureMap::getInstance()
 //Returns the textureID
 GLuint TextureMap::insert(const std::string& textureName, const std::string& textureFile)
 {
-	//We take in our texture name, and its filepath
-	std::string text = "Assets/Textures/Skybox/bk.jpg";
 	long long textureHash = hash(textureFile);
-
 
 	if (m_textures.find(textureHash) != m_textures.end()) {	//If the texture does exist
 		m_textures[textureHash].refCount += 1;
+		m_totalDuplicates++;
 		return m_textures[textureHash].textureID;
 	}
 	else {	
@@ -144,4 +142,9 @@ void TextureMap::dump()
 	{
 		std::cout << it->second.textureID << " " << it->second.refCount << " " << it->second.textureHash << " \n";
 	}
+}
+
+const int& TextureMap::totalNumberOfDuplicates() const
+{
+	return m_totalDuplicates;
 }

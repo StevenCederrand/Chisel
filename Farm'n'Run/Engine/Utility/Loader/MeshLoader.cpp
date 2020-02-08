@@ -12,8 +12,7 @@ std::vector<Mesh*> MeshLoader::interpretMesh(std::string name)
 	Assimp::Importer importer;
 	m_textureMap = TextureMap::getInstance();
 
-	unsigned int importOptions =  aiProcess_GenSmoothNormals | 
-		aiProcess_FlipUVs;
+	unsigned int importOptions =  aiProcess_GenSmoothNormals | aiProcess_FlipUVs;
 
 	const aiScene* scene = importer.ReadFile(MESH_PATH + name, importOptions);
 	std::vector<Mesh*> meshes;
@@ -47,9 +46,7 @@ void MeshLoader::processNode(aiNode* node, const aiScene* scene, std::vector<Mes
 
 }
 
-Mesh* MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene)
-{
-	
+Mesh* MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene) {	
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 
@@ -105,11 +102,7 @@ Material* MeshLoader::loadMaterial(aiMaterial* material) {
 
 	aiString name;
 
-
 	material->Get(AI_MATKEY_NAME, name);
-
-	logInfo(name.C_Str());
-
 
 	if (MaterialMap::getInstance()->existsWithName(name.C_Str())) {
 		return MaterialMap::getInstance()->getMaterial(name.C_Str());

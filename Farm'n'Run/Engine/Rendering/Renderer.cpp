@@ -83,19 +83,22 @@ void Renderer::render()
 
 	}
 	else {
-		shader = m_shaderMap->useByName(SHADER_ID::FORWARD);
 
-		bindMatrixes(shader);
 		
 		//If tab and wireframe off
 		if (m_wireframe) {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			shader = m_shaderMap->useByName(SHADER_ID::WIREFRAME);
 		}
 		else{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
+			
+			shader = m_shaderMap->useByName(SHADER_ID::FORWARD);
+			shader->bindDirectionalLight();
 		}
 
-		shader->bindDirectionalLight();
+		bindMatrixes(shader);
+
 
 		for (size_t i = 0; i < m_pointlights.size(); i++)
 		{
@@ -111,9 +114,13 @@ void Renderer::render()
 			for (size_t j = 0; j < meshes.size(); j++) {
 				mesh = meshes.at(j);
 
-				//Optimze this by having the mesh hold a pointer to it's material/s
-				Material* mat = mesh->getMaterialAt(0);
-				shader->setMaterial(mat);
+				if (m_wireframe) {
+				}
+				else {
+					//Optimze this by having the mesh hold a pointer to it's material/s
+					Material* mat = mesh->getMaterialAt(0);
+					shader->setMaterial(mat);
+				}
 
 				glBindVertexArray(mesh->getBuffers().m_VAO);
 				glDrawElements(GL_TRIANGLES, mesh->getNrOfIndices(), GL_UNSIGNED_INT, NULL);

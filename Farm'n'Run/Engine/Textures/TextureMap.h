@@ -27,15 +27,18 @@ public:
 	//Dumps all of the texture data
 	void dump();
 
+	const int& totalNumberOfDuplicates() const;
 private:
 	TextureMap();
 	~TextureMap();
 
 	long long hash(const std::string& title);
-	
 	static TextureMap* m_textureMap;
-	
 	std::map<long long, Texture> m_textures;
+	
+	long long m_sizeofSavedData; //Represents how many bites have been saved from texture mapping
+	int m_totalDuplicates;		 //Represents the total amount of duplicated textures that has been loaded
+
 };
 
 

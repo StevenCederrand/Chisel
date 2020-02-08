@@ -24,7 +24,7 @@ public:
 
 	void toggleFreeRoam();
 	void toggleWireframe();
-
+	void setDuplicateCount(const int& numOfDuplicates);
 	void calculateFPS(const float& dt);
 private:
 	static Chisel* m_chisel;

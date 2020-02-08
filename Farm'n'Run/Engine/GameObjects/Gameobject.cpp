@@ -21,6 +21,7 @@ GameObject::GameObject(const std::string& name, const std::string& filePath, con
 	setPosition(glm::vec3(0.0f));
 	setScale(glm::vec3(1.0f));
 	setRotation(glm::quat(glm::vec3(0, 0, 0)));
+	//
 
 }
 

@@ -7,6 +7,7 @@
 enum SHADER_ID {
 	FORWARD,
 	SKYBOX,
+	WIREFRAME,
 };
 
 

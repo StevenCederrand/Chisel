@@ -34,7 +34,7 @@ public:
 	std::vector<std::string> getShaderNames() const;
 
 	Shader& operator=(const Shader& other);
-
+	
 private:
 	void shaderSetup(std::string shaderName, unsigned int& shader);
 	bool m_valid;

@@ -46,6 +46,16 @@ void Application::update()
 	//Create and place the objects into a vector
 	m_GO.emplace_back(new GameObject("Sponza", "sponza.obj", ObjectType::STATIC_OBJECT));
 	m_GO[0]->setScale(glm::vec3(0.01f));
+	
+	m_GO.emplace_back(new GameObject("cubes", "cube.obj", ObjectType::STATIC_OBJECT));
+	m_GO[1]->setScale(glm::vec3(0.1f));
+
+	m_GO.emplace_back(new GameObject("cubes2", "cube0.obj", ObjectType::STATIC_OBJECT));
+	m_GO[2]->setScale(glm::vec3(0.1f));
+	m_GO[2]->setPosition(glm::vec3(1, 1, 0));
+	
+
+	Chisel::GetChisel()->setDuplicateCount(TextureMap::getInstance()->totalNumberOfDuplicates());
 
 	//While the window is active
 	while (Chisel::GetChisel()->isActive()) {
