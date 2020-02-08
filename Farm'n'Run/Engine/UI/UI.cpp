@@ -56,7 +56,16 @@ void UI::render()
 		ImGui::SetWindowPos(ImVec2(0, 250));
 		ImGui::SliderFloat3("Direction", dirLight, -1.0f, 1.0f);
 		ImGui::ColorEdit3("Color", dirLightColor);
+		ImGui::End();
+	}
+	//Stats
+	{
+		std::string frameRate = "FPS: " + std::to_string(m_frameRate);
 
+		ImGui::Begin("Stats");
+		ImGui::SetWindowPos(ImVec2(SCREEN_WIDTH * 2 - 200, 0));
+		ImGui::SetWindowSize(ImVec2(200, 200));
+		ImGui::Text(frameRate.c_str());
 		ImGui::End();
 	}
 

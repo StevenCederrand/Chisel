@@ -31,22 +31,18 @@ Application::~Application()
 	{
 		delete m_GO[i];
 	}
-	delete m_camera;
 	Chisel::GetChisel()->destroy();
 }
 
 bool Application::init()
 {
-
-	m_camera = new Camera();
+	Chisel::GetChisel();
 	return true; //Return an init of chisel
 }
 
 void Application::update()
 {
 	//Create a camera and 
-	
-	Chisel::GetChisel()->setCamera(m_camera);
 	//Create and place the objects into a vector
 	m_GO.emplace_back(new GameObject("Sponza", "sponza.obj", ObjectType::STATIC_OBJECT));
 	m_GO[0]->setScale(glm::vec3(0.01f));
@@ -55,8 +51,8 @@ void Application::update()
 	while (Chisel::GetChisel()->isActive()) {
 		DeltaTime::startDeltaTime();
 
-		Chisel::GetChisel()->update();
-		m_camera->update(DeltaTime::deltaTime);
+		Chisel::GetChisel()->update(DeltaTime::deltaTime);
+		
 		generalHandle();
 
 		Chisel::GetChisel()->render();

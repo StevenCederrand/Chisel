@@ -14,9 +14,8 @@ public:
 	void update();
 private:
 	void generalHandle();
-private:
-	Camera* m_camera;
 
+private:
 	std::vector<GameObject*> m_GO;
 	float xRotation = 4.6f;
 };

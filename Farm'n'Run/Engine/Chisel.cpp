@@ -19,7 +19,8 @@ Chisel::Chisel()
 
 
 	m_renderer = Renderer::getInstance();
-
+	m_camera = new Camera();
+	m_renderer->submitCamera(m_camera);
 	m_ui = new UI(m_window->getWindow());
 	
 }
@@ -46,13 +47,17 @@ void Chisel::destroy()
 	ShaderMap::getInstance()->destroy();
 	MaterialMap::getInstance()->destroy();
 	TextureMap::getInstance()->destroy();
+	delete m_camera;
 	delete m_ui;
 	delete m_window;
 	delete m_chisel;
 }
 
-void Chisel::update()
+void Chisel::update(const float& dt)
 {
+	calculateFPS(dt);
+	m_camera->update(dt);
+
 	if (m_camera->getLock() != m_ui->m_cameraToggle) {
 		toggleFreeRoam();
 	}
@@ -109,3 +114,37 @@ void Chisel::toggleWireframe()
 {
 	m_ui->m_wireFrameToggle = m_renderer->setWireframe();
 }
+
+void Chisel::calculateFPS(const float& dt) {
+	static unsigned fps = 0;
+	static float frameTimer = 1.0f;
+	fps++;
+	frameTimer -= dt;
+	if (frameTimer <= 0.0f)
+	{
+		frameTimer = 1.0f;
+		m_ui->m_frameRate = fps;
+		fps = 0;
+	}
+}
+
+/*
+
+void Application::calcFPS(const float& dt)
+{
+	static unsigned fps = 0;
+	static float frameTimer = 1.0f;
+
+	fps++;
+
+	frameTimer -= dt;
+	if (frameTimer <= 0.0f)
+	{
+		frameTimer = 1.0f;
+		Framerate = fps;
+		fps = 0;
+	}
+
+
+}
+*/

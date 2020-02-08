@@ -16,7 +16,7 @@ public:
 	void setCamera(Camera* camera);
 	
 	void destroy();
-	void update();
+	void update(const float& dt);
 	void render();
 	
 	bool isActive();
@@ -25,6 +25,7 @@ public:
 	void toggleFreeRoam();
 	void toggleWireframe();
 
+	void calculateFPS(const float& dt);
 private:
 	static Chisel* m_chisel;
 	ShaderMap* m_shaderMap;
@@ -35,6 +36,7 @@ private:
 
 	DirectionalLight m_directionalLight;
 
+	
 };
 
 
