@@ -4,6 +4,7 @@
 struct DirectionalLight {
     vec3 direction;
     vec3 color;
+    float ambientStrength;
 };
 
 struct Pointlight {
@@ -43,7 +44,8 @@ void main() {
         discard;    //Discard the fragment as early as possible
     }
 
-    col = calculateDirlight(colTex);
+    col = colTex.rgb * directionalLight.ambientStrength;
+    col += calculateDirlight(colTex);
     col += calculateDirlight(DiffuseCol);
 
     color = vec4(col, 1);

@@ -57,6 +57,8 @@ void UI::render()
 		ImGui::SetWindowPos(ImVec2(0, 250));
 		ImGui::SliderFloat3("Direction", dirLight, -1.0f, 1.0f);
 		ImGui::ColorEdit3("Color", dirLightColor);
+		ImGui::SliderFloat("Ambient Strength", &m_ambientStrength, 0, 1);
+
 		ImGui::End();
 	}
 	//Stats

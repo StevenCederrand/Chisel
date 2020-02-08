@@ -83,7 +83,6 @@ Shader::Shader(std::string vertex, std::string geometry, std::string fragment)
 Shader::~Shader()
 {
 	glDeleteProgram(m_shaderProg);
-	clearIDs();
 }
 
 void Shader::use()
@@ -99,95 +98,62 @@ void Shader::unuse()
 //uniform mat3
 void Shader::setMat3(std::string name, glm::mat3 mat)
 {
-	GLint uniformLoc = getUniformLocation(name);
-	if (uniformLoc == -1)
-	{
-		uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
+	GLint uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
 
 		if (uniformLoc == -1)
 		{
 			logError("Could not find uniform {0}", name);
 			return;
 		}
-
-		m_IDMap[name] = uniformLoc; //Save the ID to the hashmap
-	}
-
 	glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, &mat[0][0]);
 }
 //uniform mat4
 void Shader::setMat4(std::string name, glm::mat4 mat)
 {
-	GLint uniformLoc = getUniformLocation(name);
-	if (uniformLoc == -1)
-	{
-		uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
+	GLint uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
 
 		if (uniformLoc == -1)
 		{
 			logError("Could not find uniform {0}", name);
 			return;
 		}
-
-		m_IDMap[name] = uniformLoc; //Save the ID to the hashmap
-	}
 
 	glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, &mat[0][0]);
 }
 //uniform vec3
 void Shader::setVec3(std::string name, glm::vec3 vec)
 {
-	GLint uniformLoc = getUniformLocation(name);
-	if (uniformLoc == -1)
-	{
-		uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
+	GLint uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
 
 		if (uniformLoc == -1)
 		{
 			logError("Could not find uniform {0}", name);
 			return;
 		}
-
-		m_IDMap[name] = uniformLoc; //Save the ID to the hashmap
-	}
-
 	glUniform3fv(uniformLoc, 1, &vec[0]);
 }
 //uniform vec4
 void Shader::setVec4(std::string name, glm::vec4 vec)
 {
-	GLint uniformLoc = getUniformLocation(name);
-	if (uniformLoc == -1)
-	{
-		uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
+	GLint uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
 
 		if (uniformLoc == -1)
 		{
 			logError("Could not find uniform {0}", name);
 			return;
 		}
-
-		m_IDMap[name] = uniformLoc; //Save the ID to the hashmap
-	}
-
 	glUniform3fv(uniformLoc, 1, &vec[0]);
 
 }
 //uniform float
 void Shader::setFloat(std::string name, float num)
 {
-	GLint uniformLoc = getUniformLocation(name);
+	GLint uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
+
 	if (uniformLoc == -1)
 	{
-		uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
-
-		if (uniformLoc == -1)
-		{
-			logError("Could not find uniform {0}", name);
-			return;
-		}
-
-		m_IDMap[name] = uniformLoc; //Save the ID to the hashmap
+		logError("Could not find uniform {0}", name);
+		return;
 	}
 
 	glUniform1f(uniformLoc, num);
@@ -196,25 +162,15 @@ void Shader::setFloat(std::string name, float num)
 //uniform int
 void Shader::setInt(std::string name, int num)
 {
-	GLint uniformLoc = getUniformLocation(name);
+	GLint uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
+
 	if (uniformLoc == -1)
 	{
-		uniformLoc = glGetUniformLocation(this->getShaderID(), name.c_str());
-
-		if (uniformLoc == -1)
-		{
-			logError("Could not find uniform {0}", name);
-			return;
-		}
-
-		m_IDMap[name] = uniformLoc; //Save the ID to the hashmap
+		logError("Could not find uniform {0}", name);
+		return;
 	}
 
 	glUniform1i(uniformLoc, num);
-}
-
-void Shader::clearIDs() {
-	m_IDMap.clear();
 }
 
 bool Shader::getValid() const
@@ -259,6 +215,7 @@ void Shader::bindDirectionalLight()
 {
 	setVec3("directionalLight.direction", m_directionalLight.direction);
 	setVec3("directionalLight.color", m_directionalLight.color);
+	setFloat("directionalLight.ambientStrength", m_directionalLight.ambientStrength);
 }
 
 std::string Shader::getName() const
@@ -269,17 +226,6 @@ std::string Shader::getName() const
 std::vector<std::string> Shader::getShaderNames() const
 {
 	return m_shaderNames;
-}
-
-GLint Shader::getUniformLocation(std::string locationName)
-{
-	GLint location = -1;
-
-	if (m_IDMap.find(locationName) != m_IDMap.end()) {
-		location = m_IDMap[locationName];
-	}
-
-	return location;
 }
 
 //one function for all the shaders instead of one for each
@@ -328,10 +274,8 @@ Shader& Shader::operator=(const Shader& other) {
 	else {
 		//Clear and remove the shader program
 		glDeleteProgram(m_shaderProg);
-		clearIDs();
 
 		m_shaderProg = other.m_shaderProg;
-		m_IDMap = other.m_IDMap;
 		m_name = other.m_name;
 		m_shaderNames = other.m_shaderNames;
 		return *this;

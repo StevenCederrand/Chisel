@@ -17,4 +17,5 @@ public:
 	bool m_quit;
 	float dirLight[3] = { -.03f, -1.0f, 0.8f };
 	float dirLightColor[3] = { 1.0f, 1.0f, 1.0f };
+	float m_ambientStrength = 0.5f;
 };

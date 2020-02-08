@@ -105,15 +105,18 @@ void Renderer::render()
 		for (size_t i = 0; i < m_staticObjects.size(); i++) {
 
 			shader->setMat4("modelMatrix", m_staticObjects.at(i)->getTransform().matrix);
+			std::vector<Mesh*> meshes = m_staticObjects.at(i)->getMesh();
+			Mesh* mesh = nullptr;
 
-			for (size_t j = 0; j < m_staticObjects.at(i)->getMesh().size(); j++) {
+			for (size_t j = 0; j < meshes.size(); j++) {
+				mesh = meshes.at(j);
 
 				//Optimze this by having the mesh hold a pointer to it's material/s
-				Material* mat = m_staticObjects.at(i)->getMesh().at(j)->getMaterialAt(0);
+				Material* mat = mesh->getMaterialAt(0);
 				shader->setMaterial(mat);
 
-				glBindVertexArray(m_staticObjects.at(i)->getMesh().at(j)->getBuffers().m_VAO);
-				glDrawElements(GL_TRIANGLES, m_staticObjects.at(i)->getMesh().at(j)->getNrOfIndices(), GL_UNSIGNED_INT, NULL);
+				glBindVertexArray(mesh->getBuffers().m_VAO);
+				glDrawElements(GL_TRIANGLES, mesh->getNrOfIndices(), GL_UNSIGNED_INT, NULL);
 				glBindTexture(GL_TEXTURE_2D, 0);
 				glBindVertexArray(0);
 			}

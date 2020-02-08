@@ -82,6 +82,11 @@ void Chisel::update(const float& dt)
 			m_directionalLight.color = glm::vec3(m_ui->dirLightColor[0], m_ui->dirLightColor[1], m_ui->dirLightColor[2]);
 			ShaderMap::getInstance()->getShader(SHADER_ID::FORWARD)->direcionalLightData(m_directionalLight);
 		}
+
+		if (m_ui->m_ambientStrength != m_directionalLight.ambientStrength) {
+			m_directionalLight.ambientStrength = m_ui->m_ambientStrength;
+			ShaderMap::getInstance()->getShader(SHADER_ID::FORWARD)->direcionalLightData(m_directionalLight);
+		}
 	}
 
 	if (m_ui->m_quit) {
