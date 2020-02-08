@@ -15,6 +15,7 @@ UI::UI(GLFWwindow* window)
 
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
+	m_quit = false;
 }
 
 UI::~UI()
@@ -60,12 +61,17 @@ void UI::render()
 	}
 	//Stats
 	{
-		std::string frameRate = "FPS: " + std::to_string(m_frameRate);
-
 		ImGui::Begin("Stats");
 		ImGui::SetWindowPos(ImVec2(SCREEN_WIDTH * 2 - 200, 0));
 		ImGui::SetWindowSize(ImVec2(200, 200));
-		ImGui::Text(frameRate.c_str());
+		if (ImGui::CollapsingHeader("Statistics")) {
+			std::string frameRate = "FPS: " + std::to_string(m_frameRate);
+			ImGui::BulletText(frameRate.c_str());
+		}
+		
+		if (ImGui::Button("Quit")) {
+			m_quit = true;
+		}
 		ImGui::End();
 	}
 

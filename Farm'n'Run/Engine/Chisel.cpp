@@ -84,6 +84,9 @@ void Chisel::update(const float& dt)
 		}
 	}
 
+	if (m_ui->m_quit) {
+		m_window->closeWindow();
+	}
 }
 
 
@@ -127,24 +130,3 @@ void Chisel::calculateFPS(const float& dt) {
 		fps = 0;
 	}
 }
-
-/*
-
-void Application::calcFPS(const float& dt)
-{
-	static unsigned fps = 0;
-	static float frameTimer = 1.0f;
-
-	fps++;
-
-	frameTimer -= dt;
-	if (frameTimer <= 0.0f)
-	{
-		frameTimer = 1.0f;
-		Framerate = fps;
-		fps = 0;
-	}
-
-
-}
-*/
